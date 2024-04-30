@@ -1,0 +1,17 @@
+<%- include('layouts/main.ejs') %>
+  <% if (registerMessage) { %>
+            <div><%= registerMessage %></div>
+        <%} %> 
+        <!-- sintaxis para renderizar el msj desde back en ejs, puede estar aca o en main -->
+<h2>Register</h2>
+<form action="/signup" method="post"> <!-- en action irá la ruta donde post y el metodo será post-->
+    <input type="text" name="name" placeholder="Jane">
+    <input type="text" name="lastname" placeholder="Doe">
+    <input type="email" name="email" placeholder="Ex: asd@email.com">
+    <input type="password" name="password" placeholder="Ex: holis1234">
+    <button class="btn waves-effect waves-light" type="submit"> Register 
+        <i class="material-icons right">person_add</i>
+    </button>
+</form>
+
+<%- include('layouts/footer.ejs') %>

@@ -1,0 +1,15 @@
+<%- include('layouts/main.ejs') %>
+  <% if (loginMessage) { %>
+            <div><%= loginMessage %></div>
+        <%} %> 
+
+<h2>Login</h2>
+<form action="/signin" method="post"> <!-- en action irá la ruta donde post y el metodo será post-->
+    <input type="email" name="email" placeholder="Ex: asd@email.com">
+    <input type="password" name="password" placeholder="Ex: holis1234">
+    <button class="btn waves-effect waves-light" type="submit"> Login 
+        <i class="material-icons right">perm_identity</i>
+    </button>
+</form>
+
+<%- include('layouts/footer.ejs') %>
