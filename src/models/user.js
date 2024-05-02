@@ -6,6 +6,10 @@ const { Schema } = mongoose;
 const userSchema = new Schema ({
     email: String,
     password: String,
+    role: {
+        type: String,
+        enum: ['admin', 'cliente']
+    }
 }, {
     timestamps: true
 })

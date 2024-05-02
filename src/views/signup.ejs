@@ -4,11 +4,19 @@
         <%} %> 
         
 <h2>Register</h2>
-<form action="/signup" method="post"> 
-    <input type="text" name="name" placeholder="Jane">
-    <input type="text" name="lastname" placeholder="Doe">
-    <input type="email" name="email" placeholder="Ex: asd@email.com">
-    <input type="password" name="password" placeholder="Ex: holis1234">
+<form id="signupForm" action="/signup" method="post"> 
+    <input class="validate" type="text" name="name" placeholder="Jane">
+    <input class="validate" type="text" name="lastname" placeholder="Doe">
+    <input class="validate" type="email" name="email" placeholder="Ex: asd@email.com">
+    <span class="helper-text" data-error="Error" data-success="Correcto"></span>
+    <input class="validate" type="password" name="password" placeholder="Ex: holis1234">
+    <div class="input-field col s12">
+      <select class="browser-default"  id="role" name="role" class="validate">
+        <option value="" disabled selected>Choose your option</option>
+        <option value="admin">Administrador</option>
+        <option value="cliente">Cliente</option>
+      </select>
+    </div>
     <button class="btn waves-effect waves-light" type="submit"> Register 
         <i class="material-icons right">person_add</i>
     </button>

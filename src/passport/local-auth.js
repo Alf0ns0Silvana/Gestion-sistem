@@ -13,38 +13,43 @@ passport.deserializeUser( async (id, done) => {
 });
 
 // Autenticación para registro - signup
+
 passport.use('local-signup', new localStrategy({ 
     usernameField: 'email', 
     passwordField: 'password',
     passReqToCallback: true
-}, 
-
-async (req, email, password, done) => { 
-
-    const user = await User.findOne({email : email}) 
+}, async (req, email, password, done) => { 
+    const { role } = req.body;
+    const existingAdmin = await User.findOne({ role: 'admin' });
+    if (role === 'admin' && existingAdmin) {
+        return done(null, false, req.flash('registerMessage', 'Ya hay un administrador registrado'));
+    }
+    const user = await User.findOne({ email });
     if (user) { 
         return done(null, false, req.flash('registerMessage', 'Email already exists')); 
     } else {
         const newUser = new User();
         newUser.email = email;
         newUser.password = newUser.encryptPassword(password);
+        newUser.role = role;
         await newUser.save();
         done(null, newUser);
     }
 }));
 
-// Autenticación para logueo - signin
+// Autenticación user- signin
+
 passport.use('local-signin', new localStrategy ({
     usernameField: 'email', 
     passwordField: 'password',
     passReqToCallback: true
 }, async (req, email, password, done) => {
-    const user = await User.findOne({email : email});
+    const user = await User.findOne({ email });
     if (!user) { 
         return done(null, false, req.flash('loginMessage', 'User not found'));
     } 
     if (!user.comparePassword(password)) { 
-        return done(null, false, req.flash('loginMessage', 'Incorrect password'))
+        return done(null, false, req.flash('loginMessage', 'Incorrect password'));
     }
-    done(null, user) 
+    done(null, user);
 }));

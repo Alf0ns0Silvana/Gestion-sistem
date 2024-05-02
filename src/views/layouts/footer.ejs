@@ -1,5 +1,38 @@
 <h1>el footer</h1>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems);
+        const signupForm = document.getElementById('signupForm');
+        const signinForm = document.getElementById('signinForm');
+
+        function validateForm(form) {
+            const inputs = form.querySelectorAll('.validate');
+            for (let i = 0; i < inputs.length; i++) {
+                if (!inputs[i].value.trim()) {
+                    return false;
+                }
+            }   
+            return true;
+        }
+        function addFormSubmitListener(form) {
+            form.addEventListener('submit', function(event) {
+                if (!validateForm(form)) {
+                    event.preventDefault();
+                    M.toast({html: 'Por favor, rellena los campos.', classes: 'red'});
+                }
+            });
+        }
+        if (signupForm) {
+            addFormSubmitListener(signupForm);
+        }
+        if (signinForm) {
+            addFormSubmitListener(signinForm);
+        }
+    });
+</script>
+
 </body>
 </html>

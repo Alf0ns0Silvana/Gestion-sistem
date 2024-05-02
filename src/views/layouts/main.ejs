@@ -5,13 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <title>Bienvenido/a</title>
+    <title>Bienvenide</title>
 </head>
-<body>
+<body> 
+  <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo">Logo</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <!-- <li><a href="index.html">Soy admin</a></li>
+        <li><a href="">Soy cliente</a></li> -->
+        <li><a href="">Empresa</a></li>
+      </ul>
+    </div>
+  </nav>
     <% if (typeof body == 'undefined') { %>
-        <h1>Por favor, registre o inicie sesión</h1>
+        <h1>Bienvenide</h1>
     <% } else { %>
-        
         <%- body %>
     <% } %>
 
