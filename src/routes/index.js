@@ -11,7 +11,7 @@ router.get('/signup', (req, res, next) => {
     res.render('signup.ejs');
 });
 router.post('/signup', passport.authenticate('local-signup', {
-    successRedirect: '/profile', 
+    successRedirect: '/profile',
     failureRedirect: '/signup', 
     passReqToCallback: true 
 }));
@@ -27,7 +27,29 @@ router.post('/signin', passport.authenticate('local-signin', {
 }));
 
 router.get('/profile', isAuthenticated, (req, res, next) => { 
-    res.render('profile.ejs');
+    if (req.user.role === 'admin') {
+        res.redirect('/perfilAdmin');
+      } else if (req.user.role === 'cliente') {
+        res.redirect('/perfilClient');
+      } else {
+        res.redirect('/');
+      }
+});
+
+function checkRole(role) {
+    return (req, res, next) => {
+      if (req.user.role === role) {
+        next();
+      } else {
+        res.redirect('/signin');
+      }
+    };
+}
+router.get('/perfilAdmin', isAuthenticated, checkRole('admin'), (req, res, next) => {
+    res.render('perfilAdmin.ejs');
+});
+router.get('/perfilClient', isAuthenticated, checkRole('cliente'), (req, res, next) => {
+    res.render('perfilClient.ejs');
 });
 
 // logout
