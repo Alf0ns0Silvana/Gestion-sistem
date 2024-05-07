@@ -11,9 +11,9 @@ router.get('/getAllclients', async (req, res, next) => {
         console.log(error);
         res.status(500).send('Error obteniendo los clientes');
     }
-});
+}); // funciona desp de crearse en la bd aparece en la lista !!!!!
 
-// Create cliente
+// Create cliente 
 router.post('/createClient',async (req, res, next) => {
     const { email, name, lastname, contact, details, role } = req.body;
     try {
@@ -31,7 +31,7 @@ router.post('/createClient',async (req, res, next) => {
         console.log(error);
         res.status(500).send('Error al crear el cliente');
     }
-});
+}); // funciona se crea ok !!!!!
 
 // Get byId clientes
 router.get('/getById/:id', (req, res, next) => { 
