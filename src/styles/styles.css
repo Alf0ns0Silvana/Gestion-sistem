@@ -1,0 +1,23 @@
+.container{
+    text-align: center;
+    width: 90% !important;
+}
+.row{
+    border: 1px solid #c5c5c55e;
+    border-radius: 5px;
+    background-color: #0000000d;
+}
+.my-custom-column{
+    width: 30% !important;
+}
+h4{
+    font-size: 1.5rem !important;
+}
+.dashboard{
+    margin: auto;
+    height: 320px; /* desp borrar */
+    width: 85%;
+    border: 1px solid #c5c5c55e;
+    background-color: #0000000d;
+    border-radius: 5px;
+}
