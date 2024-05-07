@@ -24,7 +24,6 @@
             <textarea id="details" name="details"></textarea>
             <label for="role">Rol:</label>
             <select id="role" name="role">
-                <option value="admin">Administrador</option>
                 <option value="cliente" selected>Cliente</option>
             </select>
             <button type="submit">Crear Cliente</button>
@@ -40,11 +39,18 @@
                         <p>Email: <%= client.email %></p>
                         <p>Nombre: <%= client.name %></p>
                         <p>Apellido: <%= client.lastname %></p>
+                         <!-- Botones de editar y eliminar -->
+                    <div>
+                        <a href="/perfilAdmin/update/<%= client._id %>">Editar</a>
+                        <form action="/perfilAdmin/delete/<%= client._id %>" method="POST" onsubmit="return confirm('¿Estás seguro de que quieres eliminar este cliente?');">
+                            <button type="submit">Eliminar</button>
+                        </form>
+                    </div>
                     </li>
                     <% }); %>
                 </ul>
         <% } else { %>
-            <p>No hay clientes disponibles.</p>
+            <p>No hay clientes en la base de datos.</p>
         <% } %>
     </div>
                 
