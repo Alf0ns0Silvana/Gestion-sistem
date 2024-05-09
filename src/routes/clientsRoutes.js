@@ -51,8 +51,8 @@ router.get('/:id', async (req, res, next) => {
 
 // Update cliente
 router.put('/update/:id', async (req, res, next) => {
-    const clientId = req.params.id; // Obtiene el ID del cliente de los parámetros de la solicitud
-    const { email, name, lastname, contact, details, role } = req.body; // Obtiene los datos actualizados del cliente
+    const clientId = req.params.id;
+    const { email, name, lastname, contact, details, role } = req.body;
     try {
         const updatedClient = await clientSchema.findByIdAndUpdate(clientId, {
             email,
@@ -61,9 +61,9 @@ router.put('/update/:id', async (req, res, next) => {
             contact,
             details,
             role
-        }, { new: true }); // Busca/actualiza el cliente en la base de datos/devuelve cliente actualizado
+        }, { new: true });
         if (updatedClient) {
-            res.status(200).json(updatedClient);// Si se actualiza correctamente:
+            res.status(200).json(updatedClient);
         } else {
             res.status(404).json({ message: 'Cliente no encontrado' });
         }
@@ -71,7 +71,6 @@ router.put('/update/:id', async (req, res, next) => {
         console.log(error);
         res.status(500).json({ message: 'Error al actualizar el cliente' });
     }
-
 });
 // Delete cliente
 router.delete('/delete/:id', (req, res, next) => {

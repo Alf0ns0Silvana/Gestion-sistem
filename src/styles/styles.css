@@ -1,3 +1,6 @@
+h1{
+    margin: 0.50em 0.25em !important;         
+}
 .container{
     text-align: center;
     width: 90% !important;
@@ -19,4 +22,23 @@ h4{
     border: 1px solid #c5c5c55e;
     background-color: #0000000d;
     border-radius: 5px;
+}
+.container_agregar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.btn_add{
+    margin: 0.50em 0.55em;    
+}
+.edit_delete {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.material-icons{
+    margin: 0px 10px;
+}
+.delete_button{
+    border: none;
 }

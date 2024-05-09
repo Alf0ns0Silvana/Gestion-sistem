@@ -3,6 +3,25 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        var modals = document.querySelectorAll('.modal');
+        M.Modal.init(modals);
+    });
+</script>
+<script>
+    function cargarDatosCliente(id, email, name, lastname, contact, details) {
+        // Carga los datos del cliente en los campos del formulario de edición
+        document.getElementById('emailEditar').value = email;
+        document.getElementById('nameEditar').value = name;
+        document.getElementById('lastnameEditar').value = lastname;
+        document.getElementById('contactEditar').value = contact;
+        document.getElementById('detailsEditar').value = details;
+        // Cambia el valor del botón del formulario a "Editar Cliente"
+        document.getElementById('formEditar').setAttribute('action', '/perfilAdmin/update/' + id);
+        document.querySelector('#modalEditar h4').textContent = 'Editar Cliente';
+    }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
         var elems = document.querySelectorAll('select');
         var instances = M.FormSelect.init(elems);
         const signupForm = document.getElementById('signupForm');
