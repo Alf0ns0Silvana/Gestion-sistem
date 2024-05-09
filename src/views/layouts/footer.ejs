@@ -9,15 +9,15 @@
 </script>
 <script>
     function cargarDatosCliente(id, email, name, lastname, contact, details) {
-        // Carga los datos del cliente en los campos del formulario de edición
+        // traigo los respectivos datos del cliente
         document.getElementById('emailEditar').value = email;
         document.getElementById('nameEditar').value = name;
         document.getElementById('lastnameEditar').value = lastname;
         document.getElementById('contactEditar').value = contact;
         document.getElementById('detailsEditar').value = details;
-        // Cambia el valor del botón del formulario a "Editar Cliente"
+        // Cambia valor de btn
         document.getElementById('formEditar').setAttribute('action', '/perfilAdmin/update/' + id);
-        document.querySelector('#modalEditar h4').textContent = 'Editar Cliente';
+        document.querySelector('#modalEditar h4').textContent = 'Editar';
     }
 </script>
 <script>
