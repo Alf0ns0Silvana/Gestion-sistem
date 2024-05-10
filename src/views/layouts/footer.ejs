@@ -21,6 +21,29 @@
     }
 </script>
 <script>
+    document.getElementById('formEditar').addEventListener('submit', async function(event) {
+        const clientId = document.getElementById('clientId').value; // Obtengo ID cliente
+        const formData = new FormData(this); // Obtengo los datos del form
+        try {
+            const response = await fetch(`/perfilAdmin/update/${clientId}`, {
+                method: 'PUT',
+                body: formData
+            });
+            if (response.ok) {
+                console.log('Recargando la página...');
+location.reload();
+                // const data = await response.json();
+                // Aquí puedes realizar acciones adicionales después de la actualización
+                //como porejemplo dejarle un mensaje de cliente actualizado exitosamente
+            } else {
+                console.error('Error al actualizar el cliente');
+            }
+        } catch (error) {
+            console.error('Error de red:', error);
+        }
+    });
+</script>
+<script>
     document.addEventListener('DOMContentLoaded', function() {
         var elems = document.querySelectorAll('select');
         var instances = M.FormSelect.init(elems);

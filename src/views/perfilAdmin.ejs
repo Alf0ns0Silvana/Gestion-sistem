@@ -91,7 +91,8 @@
                                             <div id="modalEditar" class="modal">
                                                 <div class="modal-content">
                                                     <h4>Editar Cliente</h4>
-                                                    <form id="formEditar" action="/perfilAdmin/update" method="POST">
+                                                    <form id="formEditar" action="/perfilAdmin/update/<%= client._id %>" method="POST">
+                                                        <input type="hidden" id="clientId" name="clientId" value="<%= client._id %>">
                                                         <label for="email">Email:</label>
                                                         <input type="email" id="emailEditar" name="email" required>
                                                         <label for="name">Nombre:</label>
@@ -106,8 +107,7 @@
                                                         <select id="roleEditar" name="role">
                                                             <option value="cliente" selected>Cliente</option>
                                                         </select>
-                                                        <a href="/perfilAdmin/update/<%= client._id %>" class="waves-effect waves-green btn">Editar</a>
-                                                        <button type="button" class="waves-effect waves-red btn modal-close">Cancelar</button>
+                                                        <button type="submit" class="waves-effect waves-green btn" id="modalEditar">Editar Cliente</button>                                                        <button type="button" class="waves-effect waves-red btn modal-close">Cancelar</button>
                                                     </form>
                                                 </div>
                                             </div>
