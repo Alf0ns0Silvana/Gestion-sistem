@@ -5,6 +5,23 @@ h1{
     text-align: center;
     width: 90% !important;
 }
+.input-field{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#inputBusqueda{
+    width: 50%;
+}
+.iconSearch{
+    position: relative;
+    right: 45px;
+}
+#mensajeResultado{
+    font-weight: 500;
+    font-size: 20px;
+    margin: 20px;
+}
 .row{
     border: 1px solid #c5c5c55e;
     border-radius: 5px;

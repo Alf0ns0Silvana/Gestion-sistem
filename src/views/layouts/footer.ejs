@@ -80,5 +80,48 @@
     });
 </script>
 
+<!-- script buscador -->
+<script>
+    function buscarClientes(terminoBusqueda) {
+        const termino = terminoBusqueda.toLowerCase();
+        const filasClientes = document.querySelectorAll('.listaClientes tbody tr');
+        let resultadosEncontrados = false;
+
+        filasClientes.forEach(fila => {
+            const nombre = fila.querySelector('td:nth-child(1)').textContent.toLowerCase();
+            const apellido = fila.querySelector('td:nth-child(2)').textContent.toLowerCase();
+            const email = fila.querySelector('td:nth-child(3)').textContent.toLowerCase();
+            if (nombre.includes(termino) || apellido.includes(termino) || email.includes(termino)) {
+            fila.style.display = '';
+            resultadosEncontrados = true;
+            } else {
+            fila.style.display = 'none'; 
+            }
+        });
+
+        const mensajeResultado = document.getElementById('mensajeResultado');
+        if (!resultadosEncontrados) {
+            mensajeResultado.style.display = 'flex';
+            mensajeResultado.style.justifyContent = 'center';
+        } else {
+            mensajeResultado.style.display = 'none';
+        }
+    }
+    const inputBusqueda = document.getElementById('inputBusqueda');
+        inputBusqueda.addEventListener('input', function() {
+        const terminoBusqueda = this.value.trim(); 
+        if (terminoBusqueda === '') {
+            mostrarTodasLasFilas(); 
+        } else {
+            buscarClientes(terminoBusqueda);
+        }
+    });
+    function mostrarTodasLasFilas() {
+        const filasClientes = document.querySelectorAll('.listaClientes table tbody tr');
+        filasClientes.forEach(fila => {
+            fila.style.display = ''; 
+        });
+    }
+</script>
 </body>
 </html>
