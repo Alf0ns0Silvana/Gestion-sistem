@@ -1,48 +1,8 @@
 <h1>el footer</h1>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var modals = document.querySelectorAll('.modal');
-        M.Modal.init(modals);
-    });
-</script>
-<script>
-    function cargarDatosCliente(id, email, name, lastname, contact, details) {
-        // traigo los respectivos datos del cliente
-        document.getElementById('emailEditar').value = email;
-        document.getElementById('nameEditar').value = name;
-        document.getElementById('lastnameEditar').value = lastname;
-        document.getElementById('contactEditar').value = contact;
-        document.getElementById('detailsEditar').value = details;
-        // Cambia valor de btn
-        document.getElementById('formEditar').setAttribute('action', '/perfilAdmin/update/' + id);
-        document.querySelector('#modalEditar h4').textContent = 'Editar';
-    }
-</script>
-<script>
-    document.getElementById('formEditar').addEventListener('submit', async function(event) {
-        const clientId = document.getElementById('clientId').value; // Obtengo ID cliente
-        const formData = new FormData(this); // Obtengo los datos del form
-        try {
-            const response = await fetch(`/perfilAdmin/update/${clientId}`, {
-                method: 'PUT',
-                body: formData
-            });
-            if (response.ok) {
-                console.log('Recargando la página...');
-location.reload();
-                // const data = await response.json();
-                // Aquí puedes realizar acciones adicionales después de la actualización
-                //como porejemplo dejarle un mensaje de cliente actualizado exitosamente
-            } else {
-                console.error('Error al actualizar el cliente');
-            }
-        } catch (error) {
-            console.error('Error de red:', error);
-        }
-    });
-</script>
+
+<!-- script de form registro y login -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var elems = document.querySelectorAll('select');
@@ -72,6 +32,50 @@ location.reload();
         }
         if (signinForm) {
             addFormSubmitListener(signinForm);
+        }
+    });
+</script>
+
+<!-- script inicializa modales -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var modals = document.querySelectorAll('.modal');
+        M.Modal.init(modals);
+    });
+</script>
+
+<!-- script form editar cliente existente trayendo sus datos  -->
+<script>
+    function cargarDatosCliente(id, email, name, lastname, contact, details) {
+        // traigo los respectivos datos del cliente
+        document.getElementById('emailEditar').value = email;
+        document.getElementById('nameEditar').value = name;
+        document.getElementById('lastnameEditar').value = lastname;
+        document.getElementById('contactEditar').value = contact;
+        document.getElementById('detailsEditar').value = details;
+        // Cambia valor de btn
+        document.getElementById('formEditar').setAttribute('action', '/perfilAdmin/update/' + id);
+        document.querySelector('#modalEditar h4').textContent = 'Editar';
+    }
+</script>
+
+<!-- script form editar cliente -->
+<script>
+    document.getElementById('formEditar').addEventListener('submit', async function(event) {
+        const clientId = document.getElementById('clientId').value; // Obtengo ID cliente
+        const formData = new FormData(this); // Obtengo los datos del form
+        try {
+            const response = await fetch(`/perfilAdmin/update/${clientId}`, {
+                method: 'PUT',
+                body: formData
+            });
+            if (response.ok) {
+                console.log('cliente actualizado');
+            } else {
+                console.error('Error al actualizar el cliente');
+            }
+        } catch (error) {
+            console.error('Error de red:', error);
         }
     });
 </script>

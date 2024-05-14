@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const clientSchema = require('../models/clients.js');
 
-// Get all clientes
-router.get('/getAllclients', async (req, res, next) => { 
+// Funcion para renderiza /perfilAdmin actualizado luego de peticiones 
+ 
+async function renderPerfilAdmin(res) {
     try {
         const clients = await clientSchema.find();
         res.render('perfilAdmin.ejs', { clients });
@@ -11,7 +12,12 @@ router.get('/getAllclients', async (req, res, next) => {
         console.log(error);
         res.status(500).json({ message: 'Error obteniendo los clientes' });
     }
-}); // funciona desp de crearse en la bd aparece en la lista !!!!!
+}
+
+// Get all clientes
+router.get('/getAllclients', async (req, res, next) => { 
+    renderPerfilAdmin(res);
+});
 
 // Create cliente 
 router.post('/createClient',async (req, res, next) => {
@@ -26,12 +32,12 @@ router.post('/createClient',async (req, res, next) => {
             role
         });
         await newClient.save();
-        res.status(201).send('Cliente creado exitosamente');
+        res.redirect('/perfilAdmin');
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: 'Error al crear el cliente' });
     }
-}); // funciona se crea ok !!!!!
+}); 
 
 // Get byId clientes
 router.get('/:id', async (req, res, next) => { 
@@ -47,7 +53,7 @@ router.get('/:id', async (req, res, next) => {
         console.log(error);
         res.status(500).json({ message: 'Error obteniendo el cliente' });
     }
-}); // funciona se trae mediante su id ok !!!!!
+}); 
 
 // Update cliente
 router.put('/update/:id', async (req, res, next) => {
@@ -63,7 +69,7 @@ router.put('/update/:id', async (req, res, next) => {
             role
         }, { new: true });
         if (updatedClient) {
-            res.status(200).json(updatedClient);
+            res.redirect('/perfilAdmin');
         } else {
             res.status(404).json({ message: 'Cliente no encontrado' });
         }
@@ -86,7 +92,7 @@ router.post('/update/:id', async (req, res, next) => {
             role
         }, { new: true });
         if (updatedClient) {
-            res.status(200).json(updatedClient);
+            res.redirect('/perfilAdmin');
         } else {
             res.status(404).json({ message: 'Cliente no encontrado' });
         }
@@ -102,7 +108,7 @@ router.delete('/delete/:id', async (req, res, next) => {
     try {
         const deletedClient = await clientSchema.findByIdAndDelete(clientId);
         if (deletedClient) {
-            res.status(200).json({ message: 'Cliente eliminado exitosamente' });
+            res.redirect('/perfilAdmin');
         } else {
             res.status(404).json({ message: 'Cliente no encontrado' });
         }
@@ -117,7 +123,7 @@ router.post('/delete/:id', async (req, res, next) => {
     try {
         const deletedClient = await clientSchema.findByIdAndDelete(clientId);
         if (deletedClient) {
-            res.status(200).json({ message: 'Cliente eliminado exitosamente' });
+            res.redirect('/perfilAdmin');
         } else {
             res.status(404).json({ message: 'Cliente no encontrado' });
         }
