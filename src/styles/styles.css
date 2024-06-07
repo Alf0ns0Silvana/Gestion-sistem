@@ -5,17 +5,19 @@ h1{
     text-align: center;
     width: 90% !important;
 }
+.container_search{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
 .input-field{
     display: flex;
-    justify-content: center;
+    flex-direction: row-reverse;
+    width: 50%;
     align-items: center;
 }
-#inputBusqueda{
-    width: 50%;
-}
-.iconSearch{
-    position: relative;
-    right: 45px;
+.input-field .prefix {
+    width: unset !important;
 }
 #mensajeResultado{
     font-weight: 500;
@@ -33,13 +35,13 @@ h1{
 h4{
     font-size: 1.5rem !important;
 }
-.dashboard{
+ .dashboard{
     margin: auto;
     width: 85%;
     border: 1px solid #c5c5c55e;
     background-color: #0000000d;
     border-radius: 5px;
-}
+} 
 .container_agregar{
     display: flex;
     justify-content: space-between;

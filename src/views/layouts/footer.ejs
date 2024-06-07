@@ -6,7 +6,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var elems = document.querySelectorAll('select');
-        var instances = M.FormSelect.init(elems);
+        M.FormSelect.init(elems);
         const signupForm = document.getElementById('signupForm');
         const signinForm = document.getElementById('signinForm');
 
@@ -16,7 +16,7 @@
                 if (!inputs[i].value.trim()) {
                     return false;
                 }
-            }   
+            }
             return true;
         }
         function addFormSubmitListener(form) {
@@ -47,58 +47,37 @@
 <!-- script form editar cliente existente trayendo sus datos  -->
 <script>
     function cargarDatosCliente(id, email, name, lastname, contact, details) {
-        // traigo los respectivos datos del cliente
         document.getElementById('emailEditar').value = email;
         document.getElementById('nameEditar').value = name;
         document.getElementById('lastnameEditar').value = lastname;
         document.getElementById('contactEditar').value = contact;
         document.getElementById('detailsEditar').value = details;
-        // Cambia valor de btn
         document.getElementById('formEditar').setAttribute('action', '/perfilAdmin/update/' + id);
         document.querySelector('#modalEditar h4').textContent = 'Editar';
     }
 </script>
 
-<!-- script form editar cliente -->
-<script>
-    document.getElementById('formEditar').addEventListener('submit', async function(event) {
-        const clientId = document.getElementById('clientId').value; // Obtengo ID cliente
-        const formData = new FormData(this); // Obtengo los datos del form
-        try {
-            const response = await fetch(`/perfilAdmin/update/${clientId}`, {
-                method: 'PUT',
-                body: formData
-            });
-            if (response.ok) {
-                console.log('cliente actualizado');
-            } else {
-                console.error('Error al actualizar el cliente');
-            }
-        } catch (error) {
-            console.error('Error de red:', error);
-        }
-    });
-</script>
-
 <!-- script buscador -->
 <script>
-    function buscarClientes(terminoBusqueda) {
-        const termino = terminoBusqueda.toLowerCase();
-        const filasClientes = document.querySelectorAll('.listaClientes tbody tr');
+    document.getElementById('buscarCliente').addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const searchWords = searchTerm.split(' ').filter(word => word.trim() !== '');
+        const clientes = document.querySelectorAll('#listaClientesBody tr');
         let resultadosEncontrados = false;
 
-        filasClientes.forEach(fila => {
-            const nombre = fila.querySelector('td:nth-child(1)').textContent.toLowerCase();
-            const apellido = fila.querySelector('td:nth-child(2)').textContent.toLowerCase();
-            const email = fila.querySelector('td:nth-child(3)').textContent.toLowerCase();
-            if (nombre.includes(termino) || apellido.includes(termino) || email.includes(termino)) {
-            fila.style.display = '';
-            resultadosEncontrados = true;
+        clientes.forEach(function(cliente) {
+            const name = cliente.querySelector('.client-name').textContent.toLowerCase();
+            const lastname = cliente.querySelector('.client-lastname').textContent.toLowerCase();
+            const email = cliente.querySelector('.client-email').textContent.toLowerCase();
+            const combined = `${name} ${lastname} ${email}`;
+            const matches = searchWords.every(word => combined.includes(word));
+            if (matches) {
+                cliente.style.display = '';
+                resultadosEncontrados = true;
             } else {
-            fila.style.display = 'none'; 
+                cliente.style.display = 'none';
             }
         });
-
         const mensajeResultado = document.getElementById('mensajeResultado');
         if (!resultadosEncontrados) {
             mensajeResultado.style.display = 'flex';
@@ -106,22 +85,7 @@
         } else {
             mensajeResultado.style.display = 'none';
         }
-    }
-    const inputBusqueda = document.getElementById('inputBusqueda');
-        inputBusqueda.addEventListener('input', function() {
-        const terminoBusqueda = this.value.trim(); 
-        if (terminoBusqueda === '') {
-            mostrarTodasLasFilas(); 
-        } else {
-            buscarClientes(terminoBusqueda);
-        }
     });
-    function mostrarTodasLasFilas() {
-        const filasClientes = document.querySelectorAll('.listaClientes table tbody tr');
-        filasClientes.forEach(fila => {
-            fila.style.display = ''; 
-        });
-    }
 </script>
 </body>
 </html>

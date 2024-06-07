@@ -1,139 +1,127 @@
 <!-- Para esta vista tengo que loguearme como admin  -->
 
 <%- include('layouts/main.ejs') %>
-    <div class="container perfil">
-        <div class="row">
-            <div class="col s3 my-custom-column">
-                <h4>Perfil:</h4>
-            </div>
-            <div class="col s3 my-custom-column">
-                <h4>
-                    <%= user.role %>
-                </h4>
-            </div>
-            <div class="col s3 my-custom-column">
-                <h4>Id: <%= user.email %>
-                </h4>
-            </div>
+<div class="container perfil">
+    <div class="row">
+        <div class="col s3 my-custom-column">
+            <h4>Perfil:</h4>
+        </div>
+        <div class="col s3 my-custom-column">
+            <h4><%= user.role %></h4>
+        </div>
+        <div class="col s3 my-custom-column">
+            <h4>Id: <%= user.email %></h4>
         </div>
     </div>
-    <!-- Buscador  -->
+</div>
+
+<!-- Buscador  -->
+<div class="container_search">
     <div class="input-field">
-        <input id="inputBusqueda" type="text" placeholder="Ingrese nombre, apellido o email del cliente">
-            <div class="iconSearch">
-                <i class="material-icons icon_Search">search</i>
-            </div>                
+        <input type="text" id="buscarCliente" placeholder="Buscar cliente"><i class="material-icons">search</i>
+        <label for="buscarCliente"></label>
     </div>
-    <div id="mensajeResultado" class="red-text" style="display: none;">No hay resultados que coincidan con la búsqueda.</div>
-    <div class="dashboard">
-        <div class="container_agregar">
-            <!-- Boton abre form add -->
-            <h1>Lista de Clientes</h1>
-            <a class="waves-effect waves-light btn modal-trigger btn_add" href="#modalAgregar">Agregar<i
-                    class="material-icons right">add</i></a>
+</div>
+
+<div class="dashboard">
+    <!-- Boton abre form add -->
+    <div class="container_agregar">
+        <h1>Lista de Clientes</h1>
+        <a class="waves-effect waves-light btn modal-trigger btn_add" href="#modalAgregar">
+            Agregar<i class="material-icons right">add</i>
+        </a>
+    </div>
+
+    <!-- Modal para el formulario de creación de cliente -->
+    <div id="modalAgregar" class="modal">
+        <div class="modal-content">
+            <h4>Agregar Cliente</h4>
+            <form action="/perfilAdmin/createClient" method="POST">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <label for="name">Nombre:</label>
+                <input type="text" id="name" name="name" required>
+                <label for="lastname">Apellido:</label>
+                <input type="text" id="lastname" name="lastname" required>
+                <label for="contact">Contacto:</label>
+                <input type="text" id="contact" name="contact">
+                <label for="details">Detalles:</label>
+                <textarea id="details" name="details"></textarea>
+                <label for="role">Rol:</label>
+                <select id="role" name="role">
+                    <option value="cliente" selected>Cliente</option>
+                </select>
+                <button type="submit" class="modal-close waves-effect waves-green btn">Crear Cliente</button>
+            </form>
         </div>
-        <!-- Modal para el formulario de creación de cliente -->
-        <div id="modalAgregar" class="modal">
-            <div class="modal-content">
-                <h4>Agregar Cliente</h4>
-                <form action="/perfilAdmin/createClient" method="POST">
-                    <!-- Contenido del formulario -->
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
-                    <label for="name">Nombre:</label>
-                    <input type="text" id="name" name="name" required>
-                    <label for="lastname">Apellido:</label>
-                    <input type="text" id="lastname" name="lastname" required>
-                    <label for="contact">Contacto:</label>
-                    <input type="text" id="contact" name="contact">
-                    <label for="details">Detalles:</label>
-                    <textarea id="details" name="details"></textarea>
-                    <label for="role">Rol:</label>
-                    <select id="role" name="role">
-                        <option value="cliente" selected>Cliente</option>
-                    </select>
-                    <button type="submit" class="modal-close waves-effect waves-green btn">Crear Cliente</button>
-                </form>
-            </div>
-        </div>
-        <!-- Vista lista de clientes -->
-        <div class="listaClientes">
-            <table class="responsive-table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Apellido</th>
-                        <th>Email</th>
-                        <th>Contacto</th>
-                        <th>Detalles</th>
-                        <th>Actualizar / Eliminar</th>
-                    </tr>
-                </thead>
-                <% if (clients.length> 0) { %>
-                    <tbody>
-                        <% clients.forEach(client=> { %>
-                            <tr>
-                                <td>
-                                    <%= client.name %>
-                                </td>
-                                <td>
-                                    <%= client.lastname %>
-                                </td>
-                                <td>
-                                    <%= client.email %>
-                                </td>
-                                <td>
-                                    <%= client.contact %>
-                                </td>
-                                <td>
-                                    <%= client.details %>
-                                </td>
-                                <td>
-                                    <div class="edit_delete">
-                                        <!-- Modal para editar cliente por su id  -->
-                                        <a href="#modalEditar" class="modal-trigger"
-                                            onclick="cargarDatosCliente('<%= client._id %>', '<%= client.email %>', 
-                                            '<%= client.name %>', '<%= client.lastname %>', '<%= client.contact %>',
-                                            '<%= client.details %>')"><i class="material-icons delete_button">edit</i>
-                                        </a>
-                                            <div id="modalEditar" class="modal">
-                                                <div class="modal-content">
-                                                    <h4>Editar Cliente</h4>
-                                                    <form id="formEditar" action="/perfilAdmin/update/<%= client._id %>" method="POST">
-                                                        <input type="hidden" id="clientId" name="clientId" value="<%= client._id %>">
-                                                        <label for="email">Email:</label>
-                                                        <input type="email" id="emailEditar" name="email" required>
-                                                        <label for="name">Nombre:</label>
-                                                        <input type="text" id="nameEditar" name="name" required>
-                                                        <label for="lastname">Apellido:</label>
-                                                        <input type="text" id="lastnameEditar" name="lastname" required>
-                                                        <label for="contact">Contacto:</label>
-                                                        <input type="text" id="contactEditar" name="contact">
-                                                        <label for="details">Detalles:</label>
-                                                        <textarea id="detailsEditar" name="details"></textarea>
-                                                        <label for="role">Rol:</label>
-                                                        <select id="roleEditar" name="role">
-                                                            <option value="cliente" selected>Cliente</option>
-                                                        </select>
-                                                        <button type="submit" class="waves-effect waves-green btn" id="modalEditar">Editar Cliente</button>                                                        <button type="button" class="waves-effect waves-red btn modal-close">Cancelar</button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        <form action="/perfilAdmin/delete/<%= client._id %>" method="POST"
-                                            onsubmit="return confirm('¿Estás seguro de que quieres eliminar este cliente?');">
-                                            <button type="submit" class="delete_button">
-                                                <i class="material-icons delete_button">delete_forever</i>
-                                        </button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                    </tbody>
-                    <% }); %>
-            </table>
+    </div>
+    <!-- Vista lista de clientes -->
+    <div class="listaClientes">
+        <table class="responsive-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Apellido</th>
+                    <th>Email</th>
+                    <th>Contacto</th>
+                    <th>Detalles</th>
+                    <th>Actualizar / Eliminar</th>
+                </tr>
+            </thead>
+            <% if (clients.length > 0) { %>
+            <tbody id="listaClientesBody">
+                <% clients.forEach(client => { %>
+                <tr>
+                    <td class="client-name"><%= client.name %></td>
+                    <td class="client-lastname"><%= client.lastname %></td>
+                    <td class="client-email"><%= client.email %></td>
+                    <td class="client-contact"><%= client.contact %></td>
+                    <td class="client-details"><%= client.details %></td>
+                    <td>
+                        <div class="edit_delete">
+                            <!-- Modal para editar cliente por su id  -->
+                            <a href="#modalEditar" class="modal-trigger" onclick="cargarDatosCliente('<%= client._id %>', '<%= client.email %>', '<%= client.name %>', '<%= client.lastname %>', '<%= client.contact %>', '<%= client.details %>')">
+                                <i class="material-icons delete_button">edit</i>
+                            </a>
+                            <div id="modalEditar" class="modal">
+                                <div class="modal-content">
+                                    <h4>Editar Cliente</h4>
+                                    <form id="formEditar" action="/perfilAdmin/update/<%= client._id %>" method="POST">
+                                        <input type="hidden" id="clientId" name="clientId" value="<%= client._id %>">
+                                        <label for="email">Email:</label>
+                                        <input type="email" id="emailEditar" name="email" required>
+                                        <label for="name">Nombre:</label>
+                                        <input type="text" id="nameEditar" name="name" required>
+                                        <label for="lastname">Apellido:</label>
+                                        <input type="text" id="lastnameEditar" name="lastname" required>
+                                        <label for="contact">Contacto:</label>
+                                        <input type="text" id="contactEditar" name="contact">
+                                        <label for="details">Detalles:</label>
+                                        <textarea id="detailsEditar" name="details"></textarea>
+                                        <label for="role">Rol:</label>
+                                        <select id="roleEditar" name="role">
+                                            <option value="cliente" selected>Cliente</option>
+                                        </select>
+                                        <button type="submit" class="waves-effect waves-green btn">Editar Cliente</button>
+                                        <button type="button" class="waves-effect waves-red btn modal-close">Cancelar</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <form action="/perfilAdmin/delete/<%= client._id %>" method="POST" onsubmit="return confirm('¿Estás seguro de que quieres eliminar este cliente?');">
+                                <button type="submit" class="delete_button">
+                                    <i class="material-icons delete_button">delete_forever</i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                <% }); %>
+            </tbody>
             <% } else { %>
-                <p>No hay clientes en la base de datos.</p>
-                <% } %>
-        </div>
+            <p>No hay clientes en la base de datos.</p>
+            <% } %>
+        </table>
+        <div id="mensajeResultado" class="red-text" style="display: none;">No hay resultados que coincidan con la búsqueda, o no existe ese cliente en su base de datos.</div>
     </div>
+</div>
 <%- include('layouts/footer.ejs') %>
