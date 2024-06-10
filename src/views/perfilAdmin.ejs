@@ -55,6 +55,31 @@
             </form>
         </div>
     </div>
+
+    <div id="modalEditar" class="modal">
+        <div class="modal-content">
+            <h4>Editar Cliente</h4>
+            <form id="formEditar" action="/perfilAdmin/update" method="POST">
+                <input type="hidden" id="clientId" name="clientId">
+                <label for="email">Email:</label>
+                <input type="email" id="emailEditar" name="email" required>
+                <label for="name">Nombre:</label>
+                <input type="text" id="nameEditar" name="name" required>
+                <label for="lastname">Apellido:</label>
+                <input type="text" id="lastnameEditar" name="lastname" required>
+                <label for="contact">Contacto:</label>
+                <input type="text" id="contactEditar" name="contact">
+                <label for="details">Detalles:</label>
+                <textarea id="detailsEditar" name="details"></textarea>
+                <label for="role">Rol:</label>
+                <select id="roleEditar" name="role">
+                    <option value="cliente" selected>Cliente</option>
+                </select>
+                <button type="submit" class="waves-effect waves-green btn">Editar Cliente</button>
+                <button type="button" class="waves-effect waves-red btn modal-close">Cancelar</button>
+            </form>
+        </div>
+    </div>
     <!-- Vista lista de clientes -->
     <div class="listaClientes">
         <table class="responsive-table">
@@ -79,34 +104,10 @@
                     <td class="client-details"><%= client.details %></td>
                     <td>
                         <div class="edit_delete">
-                            <!-- Modal para editar cliente por su id  -->
-                            <a href="#modalEditar" class="modal-trigger" onclick="cargarDatosCliente('<%= client._id %>', '<%= client.email %>', '<%= client.name %>', '<%= client.lastname %>', '<%= client.contact %>', '<%= client.details %>')">
+                            <!-- Modal para editar / eliminar cliente por su id  -->
+                            <a href="#modalEditar" class="modal-trigger edit-button" data-id="<%= client._id %>" data-email="<%= client.email %>" data-name="<%= client.name %>" data-lastname="<%= client.lastname %>" data-contact="<%= client.contact %>" data-details="<%= client.details %>">
                                 <i class="material-icons delete_button">edit</i>
                             </a>
-                            <div id="modalEditar" class="modal">
-                                <div class="modal-content">
-                                    <h4>Editar Cliente</h4>
-                                    <form id="formEditar" action="/perfilAdmin/update/<%= client._id %>" method="POST">
-                                        <input type="hidden" id="clientId" name="clientId" value="<%= client._id %>">
-                                        <label for="email">Email:</label>
-                                        <input type="email" id="emailEditar" name="email" required>
-                                        <label for="name">Nombre:</label>
-                                        <input type="text" id="nameEditar" name="name" required>
-                                        <label for="lastname">Apellido:</label>
-                                        <input type="text" id="lastnameEditar" name="lastname" required>
-                                        <label for="contact">Contacto:</label>
-                                        <input type="text" id="contactEditar" name="contact">
-                                        <label for="details">Detalles:</label>
-                                        <textarea id="detailsEditar" name="details"></textarea>
-                                        <label for="role">Rol:</label>
-                                        <select id="roleEditar" name="role">
-                                            <option value="cliente" selected>Cliente</option>
-                                        </select>
-                                        <button type="submit" class="waves-effect waves-green btn">Editar Cliente</button>
-                                        <button type="button" class="waves-effect waves-red btn modal-close">Cancelar</button>
-                                    </form>
-                                </div>
-                            </div>
                             <form action="/perfilAdmin/delete/<%= client._id %>" method="POST" onsubmit="return confirm('¿Estás seguro de que quieres eliminar este cliente?');">
                                 <button type="submit" class="delete_button">
                                     <i class="material-icons delete_button">delete_forever</i>
