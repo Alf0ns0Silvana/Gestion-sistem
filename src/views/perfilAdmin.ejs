@@ -7,10 +7,10 @@
             <h4>Perfil:</h4>
         </div>
         <div class="col s3 my-custom-column">
-            <h4><%= user.role %></h4>
+            <h4><%= user ? user.role : 'N/A' %></h4>
         </div>
         <div class="col s3 my-custom-column">
-            <h4>Id: <%= user.email %></h4>
+            <h4>Id: <%= user ? user.email : 'N/A' %></h4>
         </div>
     </div>
 </div>
@@ -45,6 +45,24 @@
                 <input type="text" id="lastname" name="lastname" required>
                 <label for="contact">Contacto:</label>
                 <input type="text" id="contact" name="contact">
+                <div class="container">
+                    <!-- aca iria el calendario que seleccionará de cuando será el evento -->
+                    <label for="eventDate">Fecha del Evento:</label>
+                    <input type="date" id="eventDate" name="eventDate" required>
+                     <!-- Tipo de Salón -->
+                    <label for="salonType">Tipo de Salón:</label>
+                    <select id="salonType" name="salonType" required>
+                        <option value="" disabled selected>Seleccionar salón</option>
+                        <option value="viaDolce">Via Dolce</option>
+                        <option value="calavera">Calavera</option>
+                        <option value="canillitas">Canillitas</option>
+                        <option value="siciliana">Siciliana</option>
+                        <option value="asociacionJaponesa">Asociación Japonesa</option>
+                        <option value="cirse">Cirse</option>
+                        <option value="servicioDomicilio">Catering a domicilio</option>
+                    </select>
+                    <div id="availabilityMessage"></div>
+                </div>
                 <label for="details">Detalles:</label>
                 <textarea id="details" name="details"></textarea>
                 <label for="role">Rol:</label>
@@ -71,10 +89,17 @@
                 <input type="text" id="contactEditar" name="contact">
                 <label for="details">Detalles:</label>
                 <textarea id="detailsEditar" name="details"></textarea>
-                <label for="role">Rol:</label>
-                <select id="roleEditar" name="role">
+                <!-- Campos de pago -->
+                <label for="amountChild">Monto por Niños:</label>
+                <input type="number" id="amountChild" name="amountChild" required>
+                <label for="amountAdult">Monto por Adultos:</label>
+                <input type="number" id="amountAdult" name="amountAdult" required>
+                <label for="specificDetails">Aclaraciones:</label>
+                <textarea id="specificDetails" name="specificDetails"></textarea>
+                <!-- <label for="role">Rol:</label> -->
+                <!-- <select id="roleEditar" name="role">
                     <option value="cliente" selected>Cliente</option>
-                </select>
+                </select> -->
                 <button type="submit" class="waves-effect waves-green btn">Editar Cliente</button>
                 <button type="button" class="waves-effect waves-red btn modal-close">Cancelar</button>
             </form>
@@ -90,7 +115,9 @@
                     <th>Email</th>
                     <th>Contacto</th>
                     <th>Detalles</th>
-                    <th>Actualizar / Eliminar</th>
+                    <th>Fecha del Evento</th>
+                    <th>Tipo de Salón</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <% if (clients.length > 0) { %>
@@ -102,12 +129,17 @@
                     <td class="client-email"><%= client.email %></td>
                     <td class="client-contact"><%= client.contact %></td>
                     <td class="client-details"><%= client.details %></td>
+                    <td class="client-eventDate"><%= client.eventDate %></td>
+                    <td class="client-salonType"><%= client.salonType %></td>
                     <td>
                         <div class="edit_delete">
                             <!-- Modal para editar / eliminar cliente por su id  -->
-                            <a href="#modalEditar" class="modal-trigger edit-button" data-id="<%= client._id %>" data-email="<%= client.email %>" data-name="<%= client.name %>" data-lastname="<%= client.lastname %>" data-contact="<%= client.contact %>" data-details="<%= client.details %>">
-                                <i class="material-icons delete_button">edit</i>
+                            <a href="/perfilAdmin/clientDetails/<%= client._id %>" class="details-button">
+                                <i class="material-icons">visibility</i>
                             </a>
+                            <a href="#modalEditar" class="modal-trigger edit-button" data-id="<%= client._id %>" data-email="<%= client.email %>" data-name="<%= client.name %>" data-lastname="<%= client.lastname %>" data-contact="<%= client.contact %>" data-details="<%= client.details %>" data-eventdate="<%= client.eventDate %>" data-salontype="<%= client.salonType %>" data-amountchild="<%= client.amountChild %>" data-amountadult="<%= client.amountAdult %>" data-specificdetails="<%= client.specificDetails %>">
+                                <i class="material-icons delete_button">edit</i>
+                            </a>                            
                             <form action="/perfilAdmin/delete/<%= client._id %>" method="POST" onsubmit="return confirm('¿Estás seguro de que quieres eliminar este cliente?');">
                                 <button type="submit" class="delete_button">
                                     <i class="material-icons delete_button">delete_forever</i>
