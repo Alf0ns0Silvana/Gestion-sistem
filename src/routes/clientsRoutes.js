@@ -75,12 +75,6 @@ router.get('/clientDetails/:id', async (req, res) => {
     }
 });
 
-// Redirección a clientDetails 
-// router.get('/clientDetails/:id', (req, res) => {
-//     const clientId = req.params.id;
-//     res.redirect(`/clientDetails/${clientId}`);
-// }); esto parece q esta al pedo pero no se 
-
 // chekear disponibilidad de salon segun fecha 
 router.post('/checkAvailability', async (req, res) => {
     const { eventDate, salonType } = req.body;

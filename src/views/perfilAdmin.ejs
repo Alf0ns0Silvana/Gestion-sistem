@@ -134,7 +134,7 @@
                     <td>
                         <div class="edit_delete">
                             <!-- Modal para editar / eliminar cliente por su id  -->
-                            <a href="/perfilAdmin/clientDetails/<%= client._id %>" class="details-button">
+                            <a href="#" class="details-button" data-id="<%= client._id %>">
                                 <i class="material-icons">visibility</i>
                             </a>
                             <a href="#modalEditar" class="modal-trigger edit-button" data-id="<%= client._id %>" data-email="<%= client.email %>" data-name="<%= client.name %>" data-lastname="<%= client.lastname %>" data-contact="<%= client.contact %>" data-details="<%= client.details %>" data-eventdate="<%= client.eventDate %>" data-salontype="<%= client.salonType %>" data-amountchild="<%= client.amountChild %>" data-amountadult="<%= client.amountAdult %>" data-specificdetails="<%= client.specificDetails %>">
@@ -154,6 +154,9 @@
             <p>No hay clientes en la base de datos.</p>
             <% } %>
         </table>
+        <div class="col s4">
+            <div id="client-details"></div>
+        </div>
         <div id="mensajeResultado" class="red-text" style="display: none;">No hay resultados que coincidan con la búsqueda, o no existe ese cliente en su base de datos.</div>
     </div>
 </div>

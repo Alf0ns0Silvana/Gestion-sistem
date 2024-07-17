@@ -1,7 +1,14 @@
-<h1>el footer</h1>
+<footer>
+    <h1>el footer</h1>
+</footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    M.AutoInit(); // Inicializa todos los componentes de Materialize
+});
 
+</script>
 <!-- script de form registro y login -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -173,6 +180,24 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             mensajeResultado.style.display = 'none';
         }
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const detailsButtons = document.querySelectorAll('.details-button');
+        detailsButtons.forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                const clientId = this.getAttribute('data-id');
+                fetch(`/perfilAdmin/clientDetails/${clientId}`)
+                    .then(response => response.text())
+                    .then(data => {
+                        document.getElementById('client-details').innerHTML = data;
+                    })
+                    .catch(error => console.error('Error:', error));
+            });
+        });
     });
 </script>
 
