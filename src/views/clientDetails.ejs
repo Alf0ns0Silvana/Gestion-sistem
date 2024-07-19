@@ -1,34 +1,46 @@
-
-        <div class="container_details">
+    <div class="container_details card" >
+        <div class="title_btnClose">
             <h4>Detalles del Cliente</h4>
-            <p>Nombre: <%= client.name %> <%= client.lastname %></p>
-            <p>Email: <%= client.email %></p>
-            <p>Contacto: <%= client.contact %></p>
-            <p>Fecha del Evento: <%= client.eventDate.toDateString() %></p>
-            <p>Tipo de Salón: <%= client.salonType %></p>
-            <h5>Pagos:</h5>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Monto por Niños</th>
-                        <th>Monto por Adultos</th>
-                        <th>Detalles Específicos</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% client.payments.forEach(payment => { %>
-                        <tr>
-                            <td><%= payment.date.toDateString() %></td>
-                            <td><%= payment.amountChild %></td>
-                            <td><%= payment.amountAdult %></td>
-                            <td><%= payment.specificDetails %></td>
-                        </tr>
-                    <% }); %>
-                </tbody>
-            </table>
-            <h5>Totales:</h5>
-            <p>Total pagado por Niños: <%= client.payments.reduce((sum, payment) => sum + payment.amountChild, 0) %></p>
-            <p>Total pagado por Adultos: <%= client.payments.reduce((sum, payment) => sum + payment.amountAdult, 0) %></p>
-            <a href="/perfilAdmin" class="waves-effect waves-light btn">Volver</a>
+            <button class="waves-effect waves-light btn lista_clientes" id="close-details">
+                <i class="material-icons">close</i>
+            </button>
         </div>
+        <div class="card-content card-title">
+            <div class="perfil_clientId">
+                <p>Nombre: <%= client.name %> <%= client.lastname %></p>
+                <p>Email: <%= client.email %></p>
+                <p>Contacto: <%= client.contact %></p>
+                <p>Fecha del Evento: <%= client.eventDate.toDateString() %></p>
+                <p>Tipo de Salón: <%= client.salonType %></p>
+            </div>
+        </div>
+            <div class="card-content">
+                <span class="card-title activator">Ver registro de pagos<i class="material-icons right">arrow_upward</i></span>
+            </div>
+            <div class="card-reveal">
+                <span class="card-title">Pagos y Totales<i class="material-icons right">close</i></span>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Monto por Niños</th>
+                            <th>Monto por Adultos</th>
+                            <th>Detalles Específicos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% client.payments.forEach(payment => { %>
+                            <tr>
+                                <td><%= payment.date.toDateString() %></td>
+                                <td><%= payment.amountChild %></td>
+                                <td><%= payment.amountAdult %></td>
+                                <td><%= payment.specificDetails %></td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+                <h5>Totales:</h5>
+                <p>Total pagado por Niños: <%= client.payments.reduce((sum, payment) => sum + payment.amountChild, 0) %></p>
+                <p>Total pagado por Adultos: <%= client.payments.reduce((sum, payment) => sum + payment.amountAdult, 0) %></p>
+            </div>
+    </div>

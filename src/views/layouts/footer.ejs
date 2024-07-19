@@ -1,6 +1,28 @@
-<footer>
-    <h1>el footer</h1>
-</footer>
+<footer class="page-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">Footer Content</h5>
+                <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+            </div>
+            <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Links</h5>
+                <ul>
+                  <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+                </ul>
+            </div>
+        </div>
+            </div>
+        <div class="footer-copyright">
+        <div class="container">
+            © 2014 Copyright Text
+        </div>
+    </div>
+ </footer>
+            
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script>
@@ -183,6 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 </script>
 
+<!-- Carga detalles sin recargar toda la página -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const detailsButtons = document.querySelectorAll('.details-button');
@@ -193,9 +216,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 fetch(`/perfilAdmin/clientDetails/${clientId}`)
                     .then(response => response.text())
                     .then(data => {
-                        document.getElementById('client-details').innerHTML = data;
-                    })
-                    .catch(error => console.error('Error:', error));
+                        const clientDetails = document.getElementById('client-details');
+                            clientDetails.innerHTML = data;
+                            clientDetails.style.display = 'block';
+                            const closeButton = document.getElementById('close-details');
+                                if (closeButton) {
+                                    closeButton.addEventListener('click', function() {
+                                        clientDetails.innerHTML = '';
+                                        clientDetails.style.display = 'none';
+                                    });
+                                }
+                        const target = clientDetails;
+                            if (target) {
+                                window.scrollTo({
+                                    top: target.offsetTop,
+                                    behavior: 'smooth'
+                            });
+                    }
+                })
+                .catch(error => console.error('Error:', error));
             });
         });
     });

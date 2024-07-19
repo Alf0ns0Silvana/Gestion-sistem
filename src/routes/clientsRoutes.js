@@ -65,7 +65,7 @@ router.get('/clientDetails/:id', async (req, res) => {
     try {
         const client = await clientSchema.findById(clientId);
         if (client) {
-            res.render('clientDetails.ejs', { client }); //este tiene que quedar .ejs
+            res.render('clientDetails.ejs', { client }); //sin .ejs no funciona
         } else {
             res.status(404).json({ message: 'Cliente no encontrado' });
         }

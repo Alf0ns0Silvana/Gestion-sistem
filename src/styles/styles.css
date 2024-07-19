@@ -36,8 +36,7 @@ h4{
     font-size: 1.5rem !important;
 }
  .dashboard{
-    margin: auto;
-    width: 85%;
+    margin: 2%;
     border: 1px solid #c5c5c55e;
     background-color: #0000000d;
     border-radius: 5px;
@@ -61,3 +60,10 @@ h4{
 .delete_button{
     border: none;
 }
+
+.title_btnClose{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
