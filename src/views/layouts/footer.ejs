@@ -25,11 +25,12 @@
             
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+<!-- Inicializa todos los componentes de Materialize -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-    M.AutoInit(); // Inicializa todos los componentes de Materialize
+    M.AutoInit();
 });
-
 </script>
 <!-- script de form registro y login -->
 <script>
@@ -123,8 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!-- script form editar cliente existente trayendo sus datos  -->
- 
-<script>
+<!-- <script>
     document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.edit-button').forEach(button => {
         button.addEventListener('click', function() {
@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-</script>
+</script> -->
 
 <!-- validar pagos del form edit -->
 <script>
@@ -174,70 +174,179 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 </script>
 
-<!-- script buscador -->
+<!-- creación tabla dinámica y paginacion  -->
 <script>
-    document.getElementById('buscarCliente').addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        const searchWords = searchTerm.split(' ').filter(word => word.trim() !== '');
-        const clientes = document.querySelectorAll('#listaClientesBody tr');
-        let resultadosEncontrados = false;
-
-        clientes.forEach(function(cliente) {
-            const name = cliente.querySelector('.client-name').textContent.toLowerCase();
-            const lastname = cliente.querySelector('.client-lastname').textContent.toLowerCase();
-            const email = cliente.querySelector('.client-email').textContent.toLowerCase();
-            const combined = `${name} ${lastname} ${email}`;
-            const matches = searchWords.every(word => combined.includes(word));
-            if (matches) {
-                cliente.style.display = '';
-                resultadosEncontrados = true;
-            } else {
-                cliente.style.display = 'none';
+    const rowsPerPage = 10;
+    let currentPage = 1;
+    let clients = [];
+    async function fetchClients() {
+            try {
+                const response = await fetch('/perfilAdmin/getAllclients');
+                clients = await response.json();
+                goToPage(1);
+            } catch (error) {
+                console.error('Error fetching clients:', error);
             }
+        }
+        function openEditModal(clientData) {
+        document.getElementById('clientId').value = clientData._id;
+        document.getElementById('emailEditar').value = clientData.email;
+        document.getElementById('nameEditar').value = clientData.name;
+        document.getElementById('lastnameEditar').value = clientData.lastname;
+        document.getElementById('contactEditar').value = clientData.contact;
+        document.getElementById('detailsEditar').value = clientData.details;
+        document.getElementById('eventDate').value = clientData.eventDate;
+        document.getElementById('salonType').value = clientData.salonType;
+
+        document.getElementById('formEditar').setAttribute('action', '/perfilAdmin/update/' + clientData._id);
+    }
+    function handleEditButtonClick(event) {
+        const clientId = event.target.closest('.edit-button').dataset.id;
+        const client = clients.find(client => client._id === clientId);
+        if (client) {
+            openEditModal(client);
+        }
+    }
+    // renderización clientes 
+    function renderTable(data) {
+        const tableContainer = document.getElementById('clientTableContainer');
+        tableContainer.innerHTML = `
+            <table class="responsive-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Apellido</th>
+                        <th>Email</th>
+                        <th>Contacto</th>
+                        <th>Detalles</th>
+                        <th>Fecha del Evento</th>
+                        <th>Tipo de Salón</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${data.map(client => `
+                        <tr>
+                            <td class="client-name">${client.name}</td>
+                            <td class="client-lastname">${client.lastname}</td>
+                            <td class="client-email">${client.email}</td>
+                            <td class="client-contact">${client.contact}</td>
+                            <td class="client-details">${client.details}</td>
+                            <td class="client-eventDate">${client.eventDate}</td>
+                            <td class="client-salonType">${client.salonType}</td>
+                            <td>
+                                <div class="edit_delete">
+                                    <a href="#client-details" class="details-button" data-id="${client._id}">
+                                        <i class="material-icons">visibility</i>
+                                    </a>
+                                    <a href="#modalEditar" class="modal-trigger edit-button" data-id="${client._id}"
+                                        data-email="${client.email}" data-name="${client.name}"
+                                        data-lastname="${client.lastname}" data-contact="${client.contact}"
+                                        data-details="${client.details}" data-eventdate="${client.eventDate}"
+                                        data-salontype="${client.salonType}" data-amountchild="${client.amountChild}"
+                                        data-amountadult="${client.amountAdult}" data-specificdetails="${client.specificDetails}">
+                                        <i class="material-icons delete_button">edit</i>
+                                    </a>                            
+                                    <form action="/perfilAdmin/delete/${client._id}" method="POST" onsubmit="return confirm('¿Estás seguro de que quieres eliminar este cliente?');">
+                                        <button type="submit" class="delete_button">
+                                            <i class="material-icons delete_button">delete_forever</i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                    </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
+        document.querySelectorAll('.details-button').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const clientId = event.target.closest('.details-button').dataset.id;
+                showClientDetails(clientId);
+            });
         });
+        document.querySelectorAll('.edit-button').forEach(button => {
+            button.addEventListener('click', handleEditButtonClick);
+        });
+    }
+    function renderPagination(totalPages) {
+        const paginationContainer = document.getElementById('paginationContainer');
+        let paginationHTML = '<ul class="pagination">';
+        
+        if (currentPage > 1) {
+            paginationHTML += `<li class="waves-effect"><a href="#!" onclick="goToPage(${currentPage - 1})"><i class="material-icons">chevron_left</i></a></li>`;
+        } else {
+            paginationHTML += `<li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>`;
+        }
+        for (let i = 1; i <= totalPages; i++) {
+            if (i === currentPage) {
+                paginationHTML += `<li class="active"><a href="#!">${i}</a></li>`;
+            } else {
+                paginationHTML += `<li class="waves-effect"><a href="#!" onclick="goToPage(${i})">${i}</a></li>`;
+            }
+        }
+        if (currentPage < totalPages) {
+            paginationHTML += `<li class="waves-effect"><a href="#!" onclick="goToPage(${currentPage + 1})"><i class="material-icons">chevron_right</i></a></li>`;
+        } else {
+            paginationHTML += `<li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>`;
+        }
+
+        paginationHTML += '</ul>';
+        paginationContainer.innerHTML = paginationHTML;
+    }
+    function goToPage(page) {
+        currentPage = page;
+        const startIndex = (currentPage - 1) * rowsPerPage;
+        const endIndex = startIndex + rowsPerPage;
+        renderTable(clients.slice(startIndex, endIndex));
+        renderPagination(Math.ceil(clients.length / rowsPerPage));
+    }
+    // buscador por nombre, apellido, mail
+    document.getElementById('buscarCliente').addEventListener('keyup', function() {
+        const query = this.value.toLowerCase();
+        const filteredClients = clients.filter(client => 
+            client.email.toLowerCase().includes(query) ||
+            client.name.toLowerCase().includes(query) ||
+            client.lastname.toLowerCase().includes(query)
+        );
+        currentPage = 1;
+        goToPage(1);
+        renderTable(filteredClients.slice(0, rowsPerPage));
+        renderPagination(Math.ceil(filteredClients.length / rowsPerPage));
+
+    // Mostrar/ocultar el mensaje de resultado
         const mensajeResultado = document.getElementById('mensajeResultado');
-        if (!resultadosEncontrados) {
-            mensajeResultado.style.display = 'flex';
-            mensajeResultado.style.justifyContent = 'center';
+        if (filteredClients.length === 0) {
+            mensajeResultado.style.display = 'block';
         } else {
             mensajeResultado.style.display = 'none';
         }
     });
-</script>
-
-<!-- Carga detalles sin recargar toda la página -->
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const detailsButtons = document.querySelectorAll('.details-button');
-        detailsButtons.forEach(button => {
-            button.addEventListener('click', function(event) {
-                event.preventDefault();
-                const clientId = this.getAttribute('data-id');
-                fetch(`/perfilAdmin/clientDetails/${clientId}`)
-                    .then(response => response.text())
-                    .then(data => {
-                        const clientDetails = document.getElementById('client-details');
-                            clientDetails.innerHTML = data;
-                            clientDetails.style.display = 'block';
-                            const closeButton = document.getElementById('close-details');
-                                if (closeButton) {
-                                    closeButton.addEventListener('click', function() {
-                                        clientDetails.innerHTML = '';
-                                        clientDetails.style.display = 'none';
-                                    });
-                                }
-                        const target = clientDetails;
-                            if (target) {
-                                window.scrollTo({
-                                    top: target.offsetTop,
-                                    behavior: 'smooth'
-                            });
-                    }
-                })
-                .catch(error => console.error('Error:', error));
+    
+    // Carga detalles por c/cliente sin recargar toda la página
+    async function showClientDetails(clientId) {
+        try {
+            const response = await fetch(`/perfilAdmin/clientDetails/${clientId}`);
+            const data = await response.text();
+            const clientDetailsContainer = document.getElementById('client-details');
+            clientDetailsContainer.innerHTML = data;
+            clientDetailsContainer.style.display = 'block';
+            const closeButton = document.getElementById('close-details');
+            if (closeButton) {
+                closeButton.addEventListener('click', function() {
+                    clientDetailsContainer.innerHTML = '';
+                    clientDetailsContainer.style.display = 'none';
+                });
+            }
+            window.scrollTo({
+                top: clientDetailsContainer.offsetTop,
+                behavior: 'smooth'
             });
-        });
-    });
+        } catch (error) {
+            console.error('Error fetching client details:', error);
+        }
+    }
+    fetchClients();
 </script>
 
 </body>

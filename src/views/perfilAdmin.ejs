@@ -101,59 +101,17 @@
             </form>
         </div>
     </div>
-    <!-- Vista lista de clientes -->
-    <div class="listaClientes">
-        <table class="responsive-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Apellido</th>
-                    <th>Email</th>
-                    <th>Contacto</th>
-                    <th>Detalles</th>
-                    <th>Fecha del Evento</th>
-                    <th>Tipo de Salón</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <% if (clients.length > 0) { %>
-            <tbody id="listaClientesBody">
-                <% clients.forEach(client => { %>
-                <tr>
-                    <td class="client-name"><%= client.name %></td>
-                    <td class="client-lastname"><%= client.lastname %></td>
-                    <td class="client-email"><%= client.email %></td>
-                    <td class="client-contact"><%= client.contact %></td>
-                    <td class="client-details"><%= client.details %></td>
-                    <td class="client-eventDate"><%= client.eventDate %></td>
-                    <td class="client-salonType"><%= client.salonType %></td>
-                    <td>
-                        <div class="edit_delete">
-                            <!-- Modal para editar / eliminar cliente por su id  -->
-                            <a href="#client-details" class="details-button" data-id="<%= client._id %>">
-                                <i class="material-icons">visibility</i>
-                            </a>
-                            <a href="#modalEditar" class="modal-trigger edit-button" data-id="<%= client._id %>" data-email="<%= client.email %>" data-name="<%= client.name %>" data-lastname="<%= client.lastname %>" data-contact="<%= client.contact %>" data-details="<%= client.details %>" data-eventdate="<%= client.eventDate %>" data-salontype="<%= client.salonType %>" data-amountchild="<%= client.amountChild %>" data-amountadult="<%= client.amountAdult %>" data-specificdetails="<%= client.specificDetails %>">
-                                <i class="material-icons delete_button">edit</i>
-                            </a>                            
-                            <form action="/perfilAdmin/delete/<%= client._id %>" method="POST" onsubmit="return confirm('¿Estás seguro de que quieres eliminar este cliente?');">
-                                <button type="submit" class="delete_button">
-                                    <i class="material-icons delete_button">delete_forever</i>
-                                </button>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
-                <% }); %>
-            </tbody>
-            <% } else { %>
-            <p>No hay clientes en la base de datos.</p>
-            <% } %>
-        </table>
-        <div id="mensajeResultado" class="red-text" style="display: none;">No hay resultados que coincidan con la búsqueda, o no existe ese cliente en su base de datos.</div>
-        </div>
+
+    <div id="clientTableContainer">
+        <!-- Vista lista de clientes -->
+    </div>
+    <div id="mensajeResultado" class="red-text" style="display: none;">No hay resultados que coincidan con la búsqueda, o no existe ese cliente en su base de datos.</div>
+    
+    <div id="paginationContainer">
+        <!-- Controles de paginación -->
+    </div>
 </div>
-<!-- Vista detalles según clientId -->
+    <!-- Vista detalles según clientId -->
     <div id="client-details">
     </div>
 

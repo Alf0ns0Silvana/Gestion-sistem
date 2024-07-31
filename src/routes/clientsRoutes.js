@@ -3,11 +3,11 @@ const router = express.Router();
 const clientSchema = require('../models/clients.js');
 
 // Funcion para renderiza /perfilAdmin actualizado luego de peticiones 
- 
+
 async function renderPerfilAdmin(res) {
     try {
-        const clients = await clientSchema.find();
-        res.render('perfilAdmin.ejs', { clients });
+        const clients = await clientSchema.find().sort({ createdAt: -1 }).lean();
+        res.json(clients);
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: 'Error obteniendo los clientes' });
