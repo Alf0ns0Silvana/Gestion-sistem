@@ -74,24 +74,37 @@
     });
 </script>
 
-<!-- verificar disponibilidad del salon  -->
+<!-- verificar disponibilidad salon * fecha y manejo boton segun disponibilidad y campos requeridos -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const eventDateInput = document.getElementById('eventDate');
-        const salonTypeSelect = document.getElementById('salonType');
-        const availabilityMessage = document.getElementById('availabilityMessage');
-        const crearClienteButton = document.getElementById('crearClienteButton');
+        const formCrear = document.getElementById('formCrear');
         const emailInput = document.getElementById('email');
         const nameInput = document.getElementById('name');
         const lastnameInput = document.getElementById('lastname');
+        const contactInput = document.getElementById('contact');
+        const eventDateInput = document.getElementById('eventDate');
+        const salonTypeSelect = document.getElementById('salonType');
+        const detailsTextarea = document.getElementById('details');
+        const availabilityMessage = document.getElementById('availabilityMessage');
+        const crearClienteButton = document.getElementById('crearClienteButton');
+        const cancelarButton = document.getElementById('cancelarButton');
     
         let isAvailable = false;
-    
-        eventDateInput.addEventListener('change', checkAvailability);
-        salonTypeSelect.addEventListener('change', checkAvailability);
+            
         emailInput.addEventListener('input', toggleSubmitButton);
         nameInput.addEventListener('input', toggleSubmitButton);
         lastnameInput.addEventListener('input', toggleSubmitButton);
+        contactInput.addEventListener('input', toggleSubmitButton);
+        eventDateInput.addEventListener('input', checkAvailability);
+        salonTypeSelect.addEventListener('change', checkAvailability);
+        detailsTextarea.addEventListener('input', toggleSubmitButton);
+
+        cancelarButton.addEventListener('click', function() {
+            formCrear.reset();
+            availabilityMessage.textContent = '';
+            crearClienteButton.disabled = true;
+            isAvailable = false;
+        });
     
         async function checkAvailability() {
             const eventDate = eventDateInput.value;
@@ -140,10 +153,11 @@
             const email = emailInput.value.trim();
             const name = nameInput.value.trim();
             const lastname = lastnameInput.value.trim();
+            const contact = contactInput.value.trim();
             const eventDate = eventDateInput.value;
             const salonType = salonTypeSelect.value;
-            
-            if (email && name && lastname && eventDate && salonType && isAvailable) {
+            const details = detailsTextarea.value.trim();
+            if (email && name && lastname && contact && eventDate && salonType && details && isAvailable) {
                 crearClienteButton.disabled = false;
             } else {
                 crearClienteButton.disabled = true;
@@ -151,6 +165,7 @@
         }
     });
 </script>
+
 <!-- validar pagos del form edit -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {

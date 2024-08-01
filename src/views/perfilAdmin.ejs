@@ -33,7 +33,7 @@
         </a>
     </div>
 
-    <!-- Modal para el formulario de creación de cliente -->
+        <!-- Modal para el formulario de creación de cliente -->
     <div id="modalAgregar" class="modal">
         <div class="modal-content">
             <h4>Agregar Cliente</h4>
@@ -45,12 +45,12 @@
                 <label for="lastname">Apellido:</label>
                 <input type="text" id="lastname" name="lastname" required>
                 <label for="contact">Contacto:</label>
-                <input type="text" id="contact" name="contact">
+                <input type="text" id="contact" name="contact" required>
                 <div class="container">
-                    <!-- aca iria el calendario que seleccionará de cuando será el evento -->
+                        <!-- Fecha que se contrata  -->
                     <label for="eventDate">Fecha del Evento:</label>
                     <input type="date" id="eventDate" name="eventDate" required>
-                     <!-- Tipo de Salón -->
+                        <!-- Salón que se contrata -->
                     <label for="salonType">Tipo de Salón:</label>
                     <select id="salonType" name="salonType" required>
                         <option value="" disabled selected>Seleccionar salón</option>
@@ -65,7 +65,7 @@
                     <div id="availabilityMessage"></div>
                 </div>
                 <label for="details">Detalles:</label>
-                <textarea id="details" name="details"></textarea>
+                <textarea id="details" name="details" required></textarea>
                 <label for="role">Rol:</label>
                 <select id="role" name="role">
                     <option value="cliente" selected>Cliente</option>
@@ -76,28 +76,29 @@
         </div>
     </div>
 
+        <!-- Modal para editar cliente -->
     <div id="modalEditar" class="modal">
         <div class="modal-content">
             <h4>Editar Cliente</h4>
             <form id="formEditar" action="/perfilAdmin/update" method="POST">
                 <input type="hidden" id="clientId" name="clientId">
                 <label for="email">Email:</label>
-                <input type="email" id="emailEditar" name="email" required>
+                <input type="email" id="emailEditar" name="email" required >
                 <label for="name">Nombre:</label>
-                <input type="text" id="nameEditar" name="name" required>
+                <input type="text" id="nameEditar" name="name" required >
                 <label for="lastname">Apellido:</label>
-                <input type="text" id="lastnameEditar" name="lastname" required>
+                <input type="text" id="lastnameEditar" name="lastname" required > 
                 <label for="contact">Contacto:</label>
-                <input type="text" id="contactEditar" name="contact">
+                <input type="text" id="contactEditar" name="contact" required >
                 <label for="details">Detalles:</label>
-                <textarea id="detailsEditar" name="details"></textarea>
+                <textarea id="detailsEditar" name="details" required ></textarea>
                 <!-- Campos de pago -->
                 <label for="amountChild">Monto por Niños:</label>
                 <input type="number" id="amountChild" name="amountChild" required>
                 <label for="amountAdult">Monto por Adultos:</label>
                 <input type="number" id="amountAdult" name="amountAdult" required>
                 <label for="specificDetails">Aclaraciones:</label>
-                <textarea id="specificDetails" name="specificDetails"></textarea>
+                <textarea id="specificDetails" name="specificDetails" required ></textarea>
                 <button type="submit" class="waves-effect waves-green btn">Editar Cliente</button>
                 <button type="button" class="waves-effect waves-red btn modal-close">Cancelar</button>
             </form>
