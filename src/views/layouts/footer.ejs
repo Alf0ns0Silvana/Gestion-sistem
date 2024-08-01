@@ -76,88 +76,81 @@
 
 <!-- verificar disponibilidad del salon  -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const eventDateInput = document.getElementById('eventDate');
-    const salonTypeSelect = document.getElementById('salonType');
-    const availabilityMessage = document.getElementById('availabilityMessage');
-
-    eventDateInput.addEventListener('change', checkAvailability);
-    salonTypeSelect.addEventListener('change', checkAvailability);
-
-    async function checkAvailability() {
-        const eventDate = eventDateInput.value;
-        const salonType = salonTypeSelect.value;
-        console.log('Datos enviados:', { eventDate, salonType }); 
-        if (!eventDate || !salonType) {
-            availabilityMessage.textContent = '';
-            return;
-        }
-        try {
-            const response = await fetch('/perfilAdmin/checkAvailability', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ eventDate, salonType })
-            });
-            if (response.ok) {
-                const result = await response.json();
-                if (result.available) {
-                    availabilityMessage.textContent = 'El salón está disponible.';
-                    availabilityMessage.style.color = 'green';
+    document.addEventListener('DOMContentLoaded', function() {
+        const eventDateInput = document.getElementById('eventDate');
+        const salonTypeSelect = document.getElementById('salonType');
+        const availabilityMessage = document.getElementById('availabilityMessage');
+        const crearClienteButton = document.getElementById('crearClienteButton');
+        const emailInput = document.getElementById('email');
+        const nameInput = document.getElementById('name');
+        const lastnameInput = document.getElementById('lastname');
+    
+        let isAvailable = false;
+    
+        eventDateInput.addEventListener('change', checkAvailability);
+        salonTypeSelect.addEventListener('change', checkAvailability);
+        emailInput.addEventListener('input', toggleSubmitButton);
+        nameInput.addEventListener('input', toggleSubmitButton);
+        lastnameInput.addEventListener('input', toggleSubmitButton);
+    
+        async function checkAvailability() {
+            const eventDate = eventDateInput.value;
+            const salonType = salonTypeSelect.value;
+            console.log('Datos enviados:', { eventDate, salonType }); 
+            if (!eventDate || !salonType) {
+                availabilityMessage.textContent = '';
+                isAvailable = false;
+                toggleSubmitButton();
+                return;
+            }
+            try {
+                const response = await fetch('/perfilAdmin/checkAvailability', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ eventDate, salonType })
+                });
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.available) {
+                        availabilityMessage.textContent = 'El salón está disponible.';
+                        availabilityMessage.style.color = 'green';
+                        isAvailable = true;
+                    } else {
+                        availabilityMessage.textContent = 'El salón no está disponible.';
+                        availabilityMessage.style.color = 'red';
+                        isAvailable = false;
+                    }
                 } else {
-                    availabilityMessage.textContent = 'El salón no está disponible.';
+                    console.error('Error en la respuesta del servidor');
+                    availabilityMessage.textContent = 'Error al verificar la disponibilidad';
                     availabilityMessage.style.color = 'red';
+                    isAvailable = false;
                 }
-            } else {
-                console.error('Error en la respuesta del servidor');
+            } catch (error) {
+                console.error('Error al realizar la solicitud', error);
                 availabilityMessage.textContent = 'Error al verificar la disponibilidad';
                 availabilityMessage.style.color = 'red';
+                isAvailable = false;
             }
-        } catch (error) {
-            console.error('Error al realizar la solicitud', error);
-            availabilityMessage.textContent = 'Error al verificar la disponibilidad';
-            availabilityMessage.style.color = 'red';
+            toggleSubmitButton();
         }
-    }
-});
-</script>
-
-<!-- script form editar cliente existente trayendo sus datos  -->
-<!-- <script>
-    document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.edit-button').forEach(button => {
-        button.addEventListener('click', function() {
-            const clientId = this.getAttribute('data-id');
-            const email = this.getAttribute('data-email');
-            const name = this.getAttribute('data-name');
-            const lastname = this.getAttribute('data-lastname');
-            const contact = this.getAttribute('data-contact');
-            const details = this.getAttribute('data-details');
-            const eventDate = this.getAttribute('data-eventdate');
-            const salonType = this.getAttribute('data-salontype');
-            const amountChild = this.getAttribute('data-amountchild');
-            const amountAdult = this.getAttribute('data-amountadult');
-            const specificDetails = this.getAttribute('data-specificdetails');
-
-            document.getElementById('clientId').value = clientId;
-            document.getElementById('emailEditar').value = email;
-            document.getElementById('nameEditar').value = name;
-            document.getElementById('lastnameEditar').value = lastname;
-            document.getElementById('contactEditar').value = contact;
-            document.getElementById('detailsEditar').value = details;
-            document.getElementById('eventDate').value = eventDate;
-            document.getElementById('salonType').value = salonType;
-            document.getElementById('amountChild').value = amountChild;
-            document.getElementById('amountAdult').value = amountAdult;
-            document.getElementById('specificDetails').value = specificDetails;
-
-            document.getElementById('formEditar').setAttribute('action', '/perfilAdmin/update/' + clientId);
-        });
+        function toggleSubmitButton() {
+            const email = emailInput.value.trim();
+            const name = nameInput.value.trim();
+            const lastname = lastnameInput.value.trim();
+            const eventDate = eventDateInput.value;
+            const salonType = salonTypeSelect.value;
+            
+            if (email && name && lastname && eventDate && salonType && isAvailable) {
+                crearClienteButton.disabled = false;
+            } else {
+                crearClienteButton.disabled = true;
+            }
+        }
     });
-});
-</script> -->
-
+</script>
 <!-- validar pagos del form edit -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {

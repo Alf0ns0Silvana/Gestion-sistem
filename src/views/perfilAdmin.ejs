@@ -1,6 +1,7 @@
 <!-- Para esta vista tengo que loguearme como admin  -->
 
 <%- include('layouts/main.ejs') %>
+
 <div class="container perfil">
     <div class="row">
         <div class="col s3 my-custom-column">
@@ -15,10 +16,10 @@
     </div>
 </div>
 
-<!-- Buscador  -->
+    <!-- Buscador  -->
 <div class="container_search">
     <div class="input-field">
-        <input type="text" id="buscarCliente" placeholder="Buscar cliente"><i class="material-icons">search</i>
+        <input type="text" id="buscarCliente" placeholder="Nombre, apellido o email"><i class="material-icons">search</i>
         <label for="buscarCliente"></label>
     </div>
 </div>
@@ -36,7 +37,7 @@
     <div id="modalAgregar" class="modal">
         <div class="modal-content">
             <h4>Agregar Cliente</h4>
-            <form action="/perfilAdmin/createClient" method="POST">
+            <form  id="formCrear" action="/perfilAdmin/createClient" method="POST">
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>
                 <label for="name">Nombre:</label>
@@ -69,7 +70,8 @@
                 <select id="role" name="role">
                     <option value="cliente" selected>Cliente</option>
                 </select>
-                <button type="submit" class="modal-close waves-effect waves-green btn">Crear Cliente</button>
+                <button id="crearClienteButton" type="submit" class="modal-close waves-effect waves-green btn"  disabled>Crear Cliente</button>
+                <button  id="cancelarButton" type="button" class="modal-close waves-effect waves-red btn red">Cancelar</button>
             </form>
         </div>
     </div>
@@ -102,16 +104,17 @@
         </div>
     </div>
 
-    <div id="clientTableContainer">
         <!-- Vista lista de clientes -->
+    <div id="clientTableContainer">
     </div>
+
     <div id="mensajeResultado" class="red-text" style="display: none;">No hay resultados que coincidan con la búsqueda, o no existe ese cliente en su base de datos.</div>
     
-    <div id="paginationContainer">
         <!-- Controles de paginación -->
+    <div id="paginationContainer">
     </div>
 </div>
-    <!-- Vista detalles según clientId -->
+        <!-- Vista detalles según clientId -->
     <div id="client-details">
     </div>
 
