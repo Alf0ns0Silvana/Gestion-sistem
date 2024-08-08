@@ -1,4 +1,4 @@
-<footer class="page-footer">
+<footer class="page-footer footer">
     <div class="container">
         <div class="row">
             <div class="col l6 s12">
@@ -32,7 +32,7 @@
     M.AutoInit();
 });
 </script>
-<!-- script de form registro y login -->
+<!--  form registro y login -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var elems = document.querySelectorAll('select');
@@ -66,7 +66,7 @@
     });
 </script>
 
-<!-- script inicializa modales -->
+<!--  inicializa modales -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var modals = document.querySelectorAll('.modal');
@@ -74,7 +74,7 @@
     });
 </script>
 
-<!-- verificar disponibilidad salon * fecha y manejo boton segun disponibilidad y campos requeridos -->
+<!-- verificar disponibilidad salon * fecha + manejo btn segun disponibilidad + todos los campos requeridos, btn cancelar limpia form -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const formCrear = document.getElementById('formCrear');
@@ -184,7 +184,7 @@
 
 <!-- creación tabla dinámica y paginacion  -->
 <script>
-    const rowsPerPage = 10;
+    const rowsPerPage = 9;
     let currentPage = 1;
     let clients = [];
     async function fetchClients() {
@@ -219,7 +219,7 @@
     function renderTable(data) {
         const tableContainer = document.getElementById('clientTableContainer');
         tableContainer.innerHTML = `
-            <table class="responsive-table">
+            <table class="responsive-table striped">
                 <thead>
                     <tr>
                         <th>Name</th>

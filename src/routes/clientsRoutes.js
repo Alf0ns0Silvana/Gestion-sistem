@@ -100,30 +100,6 @@ router.post('/checkAvailability', async (req, res) => {
     }
 });
 
-// router.post('/checkAvailability', async (req, res) => {
-//     const { eventDate, salonType } = req.body;
-//     console.log('Solicitud recibida con:', req.body);
-
-//     if (!eventDate || !salonType) {
-//         return res.status(400).json({ message: 'Faltan parámetros' });
-//     }
-//     const date = new Date(eventDate);
-//     if (isNaN(date.getTime())) {
-//         return res.status(400).json({ message: 'Fecha no válida' });
-//     }
-//     try {
-//         const client = await clientSchema.findOne({ eventDate, salonType });
-//         if (client) {
-//             res.json({ available: false });
-//         } else {
-//             res.json({ available: true });
-//         }
-//     } catch (error) {
-//         console.error('Error en la consulta', error);
-//         res.status(500).send('Error al verificar la disponibilidad');
-//     }
-// });
-
 
 // Update cliente
 router.put('/update/:id', async (req, res, next) => {
