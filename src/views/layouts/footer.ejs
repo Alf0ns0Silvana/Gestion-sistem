@@ -341,20 +341,26 @@
             clientDetailsContainer.style.display = 'block';
             // Activar el buscador de pagos una vez que los detalles estén cargados
             const paymentSearchInput = document.getElementById('searchDate');
+            const noResultsMessage = document.getElementById('noResultsMessage');
                 if (paymentSearchInput) {
-                    console.log('Buscador de fecha encontrado:', paymentSearchInput);
+                    // console.log('Buscador de fecha encontrado:', paymentSearchInput);
                     paymentSearchInput.addEventListener('keyup', function() {
-                        console.log('Entrada capturada:', this.value);
+                        // console.log('Entrada capturada:', this.value);
                         const query = this.value.toLowerCase();
                         const paymentRows = document.querySelectorAll('#paymentsTableBody tr');
+                        let matchFound = false;
                         paymentRows.forEach(paymentRows => { 
                             const content = paymentRows.textContent.toLowerCase().replace(/\s+/g, ''); 
-                            console.log('Comparando:', content, 'con', query); 
+                            // console.log('Comparando:', content, 'con', query); 
                             const isMatch = content.includes(query);
-                            console.log(`Buscando en: ${content}, Coincidencia: ${isMatch}`);
+                            // console.log(`Buscando en: ${content}, Coincidencia: ${isMatch}`);
                             paymentRows.style.display = isMatch ? '' : 'none';
-                            console.log('Filas de la tabla seleccionadas:', paymentRows);
+                            // console.log('Filas de la tabla seleccionadas:', paymentRows);
+                            if (isMatch) {
+                                matchFound = true;
+                            }
                         });
+                            noResultsMessage.style.display = matchFound ? 'none' : 'block';
                     });
                 }
             const closeButton = document.getElementById('close-details');

@@ -1,6 +1,6 @@
     <div class="container_details card" >
         <div class="title_btnClose">
-            <h4>Detalles del Cliente</h4>
+            <h4 class="title-details">Detalles del Cliente</h4>
             <button class="waves-effect waves-light btn lista_clientes" id="close-details">
                 <i class="material-icons">close</i>
             </button>
@@ -13,7 +13,7 @@
                 <p>Fecha del Evento: <%= client.eventDate.toDateString() %></p>
                 <p>Tipo de Salón: <%= client.salonType %></p>
             </div>
-            <div class="card-content">
+            <div class="card-content-registro">
                 <span class="card-title activator">Ver registro de pagos<i class="material-icons right">arrow_upward</i></span>
             </div>
         </div>
@@ -21,8 +21,8 @@
                 <span class="card-title">Pagos y Totales<i class="material-icons right">close</i></span>
                 <!-- Buscador por fecha -->
             <div class="input-field">
-                <input type="text" id="searchDate" placeholder="Buscar por fecha: (DD/MM/AAAA)">
-                <span id="noResultsMessage" class="red-text" style="display: none;">No se encontraron pagos en la fecha ingresada. Por favor, revise la fecha y vuelva a intentar.</span>
+                <input type="text" id="searchDate" placeholder="Buscar pago por fecha: (DD/MM/AAAA)">
+                <i class="material-icons icon-search">search</i>
             </div>
                 <table >
                     <thead>
@@ -30,7 +30,7 @@
                             <th>Fecha</th>
                             <th>Monto por Niños</th>
                             <th>Monto por Adultos</th>
-                            <th>Detalles Específicos</th>
+                            <th>Aclaraciones</th>
                         </tr>
                     </thead>
                     <tbody id="paymentsTableBody">
@@ -46,6 +46,7 @@
                         <% }); %>
                     </tbody>
                 </table>
+                <span id="noResultsMessage" class="red-text" style="display: none;">No se encontraron pagos en la fecha ingresada. Por favor, revise la fecha y vuelva a intentar.</span>
                 <h5>Totales:</h5>
                 <p>Total pagado por Niños: <%= client.payments.reduce((sum, payment) => sum + payment.amountChild, 0) %></p>
                 <p>Total pagado por Adultos: <%= client.payments.reduce((sum, payment) => sum + payment.amountAdult, 0) %></p>
