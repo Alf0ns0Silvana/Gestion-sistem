@@ -340,24 +340,23 @@
             clientDetailsContainer.innerHTML = data;
             clientDetailsContainer.style.display = 'block';
             // Activar el buscador de pagos una vez que los detalles estén cargados
-        const paymentSearchInput = document.getElementById('searchDate');
-        if (paymentSearchInput) {
-            console.log('Buscador de fecha encontrado:', paymentSearchInput);
-            paymentSearchInput.addEventListener('keyup', function() {
-                console.log('Entrada capturada:', this.value); //este si lo muestra 
-                const query = this.value.toLowerCase();
-                const paymentRows = document.querySelectorAll('#paymentsTableBody tr');
-                paymentRows.forEach(paymentRows => { 
-
-                    const content = paymentRows.textContent.toLowerCase().replace(/\s+/g, ''); // Eliminar espacios adicionales
-                    console.log('Comparando:', content, 'con', query); //este no me lo muestra
-                    const isMatch = content.includes(query);
-                    console.log(`Buscando en: ${content}, Coincidencia: ${isMatch}`); //este tampoco muestra
-                    paymentRows.style.display = isMatch ? '' : 'none'; // Mostrar u ocultar
-                    console.log('Filas de la tabla seleccionadas:', paymentRows);
-                });
-            });
-        }
+            const paymentSearchInput = document.getElementById('searchDate');
+                if (paymentSearchInput) {
+                    console.log('Buscador de fecha encontrado:', paymentSearchInput);
+                    paymentSearchInput.addEventListener('keyup', function() {
+                        console.log('Entrada capturada:', this.value);
+                        const query = this.value.toLowerCase();
+                        const paymentRows = document.querySelectorAll('#paymentsTableBody tr');
+                        paymentRows.forEach(paymentRows => { 
+                            const content = paymentRows.textContent.toLowerCase().replace(/\s+/g, ''); 
+                            console.log('Comparando:', content, 'con', query); 
+                            const isMatch = content.includes(query);
+                            console.log(`Buscando en: ${content}, Coincidencia: ${isMatch}`);
+                            paymentRows.style.display = isMatch ? '' : 'none';
+                            console.log('Filas de la tabla seleccionadas:', paymentRows);
+                        });
+                    });
+                }
             const closeButton = document.getElementById('close-details');
             if (closeButton) {
                 closeButton.addEventListener('click', function() {
@@ -374,7 +373,6 @@
         }
     }
     fetchClients();
-    
 </script>
 
 </body>
