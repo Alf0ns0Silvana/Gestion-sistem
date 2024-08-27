@@ -13,13 +13,18 @@
                 <p>Fecha del Evento: <%= client.eventDate.toDateString() %></p>
                 <p>Tipo de Salón: <%= client.salonType %></p>
             </div>
-        </div>
             <div class="card-content">
                 <span class="card-title activator">Ver registro de pagos<i class="material-icons right">arrow_upward</i></span>
             </div>
+        </div>
             <div class="card-reveal">
                 <span class="card-title">Pagos y Totales<i class="material-icons right">close</i></span>
-                <table>
+                <!-- Buscador por fecha -->
+            <div class="input-field">
+                <input type="text" id="searchDate" placeholder="Buscar por fecha: (DD/MM/AAAA)">
+                <span id="noResultsMessage" class="red-text" style="display: none;">No se encontraron pagos en la fecha ingresada. Por favor, revise la fecha y vuelva a intentar.</span>
+            </div>
+                <table >
                     <thead>
                         <tr>
                             <th>Fecha</th>
@@ -28,10 +33,12 @@
                             <th>Detalles Específicos</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="paymentsTableBody">
                         <% client.payments.forEach(payment => { %>
                             <tr>
-                                <td><%= payment.date.toDateString() %></td>
+                                <td class="payment-date">
+                                    <%= payment.date.getDate().toString().padStart(2, '0') %>/<%= (payment.date.getMonth() + 1).toString().padStart(2, '0') %>/<%= payment.date.getFullYear() %>
+                                </td> <!-- asi aparece ok la fecha -->
                                 <td><%= payment.amountChild %></td>
                                 <td><%= payment.amountAdult %></td>
                                 <td><%= payment.specificDetails %></td>

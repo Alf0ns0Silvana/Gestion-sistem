@@ -34,7 +34,7 @@ nav, .navwrapper{
 }
 .icon-search{
     position: relative;
-    top: 18px;
+    top: 19px;
     color: #dfdfdf;
     right: 50px;
 }
@@ -104,6 +104,7 @@ h4{
     border: none;
     background-color: transparent;
     cursor: pointer;
+    padding: unset;
 }
 .title_btnClose{
     display: flex;
@@ -111,7 +112,7 @@ h4{
     justify-content: space-between;
 }
 
-            /* modales*/
+            /* MODALES */
 
 .modal .modal-content  {
     padding: 15px !important;
@@ -132,6 +133,8 @@ h4{
     margin: unset;
  }
 
+             /* PAGINACIÓN */
+
  .pagination {
     text-align: center;
 }
@@ -141,7 +144,7 @@ h4{
     padding-left: 0;
     margin: 0;
     list-style: none;
-} capaz esto esta para cuando se sumen muchas pags, no borrar por las dudas */ 
+}  */ 
 
 .pagination li {
     display: inline;

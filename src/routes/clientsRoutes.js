@@ -65,6 +65,14 @@ router.get('/clientDetails/:id', async (req, res) => {
     try {
         const client = await clientSchema.findById(clientId);
         if (client) {
+            client.payments.forEach(payment => {
+                console.log('Fecha original:', payment.date);
+                console.log('Fecha formateada:', 
+                    payment.date.getDate().toString().padStart(2, '0') + '/' +
+                    (payment.date.getMonth() + 1).toString().padStart(2, '0') + '/' +
+                    payment.date.getFullYear()
+                );
+            });
             res.render('clientDetails.ejs', { client }); //sin .ejs no funciona
         } else {
             res.status(404).json({ message: 'Cliente no encontrado' });
