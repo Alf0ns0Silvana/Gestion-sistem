@@ -66,11 +66,17 @@
     });
 </script>
 
-<!--  inicializa modales -->
+<!--  inicializa modales y textrareas  -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var modals = document.querySelectorAll('.modal');
         M.Modal.init(modals);
+    });
+    var textAreas = document.querySelectorAll('textarea');
+    M.CharacterCounter.init(textAreas);
+    // Auto-resize
+    textAreas.forEach(textarea => {
+        M.textareaAutoResize(textarea);
     });
 </script>
 

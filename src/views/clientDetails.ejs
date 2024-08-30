@@ -14,15 +14,22 @@
                 <p>Tipo de Salón: <%= client.salonType %></p>
             </div>
             <div class="card-content-registro">
-                <span class="card-title activator">Ver registro de pagos<i class="material-icons right">arrow_upward</i></span>
+                <span class="card-title activator">
+                    <h5 class="card-title-registro-tituloVerPagos">Ver registro de pagos<i class="material-icons right">arrow_drop_up</i></h5>
+                </span>
             </div>
         </div>
             <div class="card-reveal">
-                <span class="card-title">Pagos y Totales<i class="material-icons right">close</i></span>
+                <div class="titleCloseReveal">
+                    <span class="card-title">Fechas de cada pago registrado y totales por niños y adultos.</span>
+                    <i class="material-icons right icon-close-register">close</i>
+                </div>
                 <!-- Buscador por fecha -->
             <div class="input-field">
-                <input type="text" id="searchDate" placeholder="Buscar pago por fecha: (DD/MM/AAAA)">
-                <i class="material-icons icon-search">search</i>
+                <div class="inputSearchRegister">
+                    <input type="text" id="searchDate" placeholder="Buscar pago por fecha: (DD/MM/AAAA)">
+                    <i class="material-icons icon-search-register">search</i>
+                </div>  
             </div>
                 <table >
                     <thead>
@@ -46,7 +53,9 @@
                         <% }); %>
                     </tbody>
                 </table>
-                <span id="noResultsMessage" class="red-text" style="display: none;">No se encontraron pagos en la fecha ingresada. Por favor, revise la fecha y vuelva a intentar.</span>
+                <div class="messageError">
+                    <span id="noResultsMessage" style="display: none;">No se encontraron pagos en la fecha ingresada. Por favor, revise la fecha y vuelva a intentar.</span>
+                </div>
                 <h5>Totales:</h5>
                 <p>Total pagado por Niños: <%= client.payments.reduce((sum, payment) => sum + payment.amountChild, 0) %></p>
                 <p>Total pagado por Adultos: <%= client.payments.reduce((sum, payment) => sum + payment.amountAdult, 0) %></p>

@@ -40,7 +40,7 @@
             <div class="container_title_modal">
                 <h4>Todos los campos son requeridos para registrar un nuevo cliente</h4>
             </div>
-            <form  id="formCrear" action="/perfilAdmin/createClient" method="POST">
+            <form  id="formCrear" action="/perfilAdmin/createClient" method="POST" enctype="multipart/form-data">
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>
                 <label for="name">Nombre:</label>
@@ -67,8 +67,22 @@
                     </select>
                     <div id="availabilityMessage"></div>
                 </div>
-                <label for="details">Detalles:</label>
-                <textarea id="details" name="details" required></textarea>
+                <label for="details">Información</label>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <label for="details">Detalle brevemente información específica de este nuevo cliente</label>
+                        <textarea id="details" name="details" required class="materialize-textarea" data-length="220"></textarea>
+                    </div>
+                </div>
+                    <div class="file-field input-field">
+                      <div class="btn">
+                        <span>File</span>
+                        <input type="file" multiple>
+                      </div>
+                      <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text" placeholder="Adjunte uno o mas archivos si es necesario">
+                      </div>
+                    </div>
                 <label for="role">Rol:</label>
                 <select id="role" name="role">
                     <option value="cliente" selected>Cliente</option>
@@ -83,7 +97,7 @@
     <div id="modalEditar" class="modal">
         <div class="modal-content">
             <h4>Editar Cliente</h4>
-            <form id="formEditar" action="/perfilAdmin/update" method="POST">
+            <form id="formEditar" action="/perfilAdmin/update" method="POST"  enctype="multipart/form-data">
                 <input type="hidden" id="clientId" name="clientId">
                 <label for="email">Email:</label>
                 <input type="email" id="emailEditar" name="email" required >
@@ -94,14 +108,28 @@
                 <label for="contact">Contacto:</label>
                 <input type="text" id="contactEditar" name="contact" required >
                 <label for="details">Detalles:</label>
-                <textarea id="detailsEditar" name="details" required ></textarea>
+                <textarea id="detailsEditar" name="details" required disabled></textarea> 
                 <!-- Campos de pago -->
                 <label for="amountChild">Monto por Niños:</label>
                 <input type="number" id="amountChild" name="amountChild" required>
                 <label for="amountAdult">Monto por Adultos:</label>
                 <input type="number" id="amountAdult" name="amountAdult" required>
                 <label for="specificDetails">Aclaraciones:</label>
-                <textarea id="specificDetails" name="specificDetails" required ></textarea>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <label for="specificDetails">Detalle brevemente registro del pago al dia de la fecha.</label>
+                      <textarea id="specificDetails" name="specificDetails" required  class="materialize-textarea" data-length="160"></textarea>
+                    </div>
+                </div>
+                    <div class="file-field input-field">
+                      <div class="btn">
+                        <span>File</span>
+                        <input type="file" multiple>
+                      </div>
+                      <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text" placeholder="Adjunte uno o mas archivos si es necesario">
+                      </div>
+                    </div>
                 <button type="submit" class="waves-effect waves-green btn">Editar Cliente</button>
                 <button type="button" class="waves-effect waves-red btn modal-close">Cancelar</button>
             </form>
